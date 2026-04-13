@@ -220,4 +220,80 @@
  }
 
  
+ N S O b j e c t 类 对 这 两 个 ⽅ 法 的 默 认 实 现 是 ： 当 且 仅 当 其 “ 指 针 值 ” （ p o i n t e r v a l u e ） ® 完 全 相
+ 等 时 ， 这 两 个 对 象 才 相 等 。 若 想 在 ⾃ 定 义 的 对 象 中 正 确 覆 写 这 些 ⽅ 法 ， 就 必 须 先 理 解 其 约 定
+ （ c o n t r a c t ） 。 如 果 “ i s E q u a l ： ” ⽅ 法 判 定 两 个 对 象 相 等 ， 那 么 其 h a s h ⽅ 法 也 必 须 返 回 同 ⼀ 个
+ 值 。 但 是 ， 如 果 两 个 对 象 的 h a s h ⽅ 法 返 回 同 ⼀ 个 值 ， 那 么 “ i s E q u a l ： ” ⽅ 法 未 必 会 认 为 两 者
+ 相 等 。
+ - (BOOL) isEqual: (id) object {
+ if (self == object) return YES;
+ if ([self class] != [object class]) return NO;
+ EOCPerson *otherPerson = (EOPerson*) object;
+ if (!_firstName isEqualToString: otherPerson.firstName])
+ return NO;
+ if (![_lastName isEqualToString:otherPerson.lastName])
+ return NO;
+ if (_age!= otherPerson.age)
+ return No;
+ return YES;
+ }
+ 先 ， 直 接 判 断 两 个 指 针 是 否 相 等 。 若 相 等 ， 则 其 均 指 向 同 ⼀ 对 象 ， 所 以 受 测 的
+ 对 象 也 必 定 相 等 。 接 下 来 ， ⽐ 较 两 对 象 所 属 的 类 。 若 不 属 于 同 ⼀ 个 类 ， 则 两 对 象 不 相
+ 等 。 E O C P e r s o n 对 象 当 然 不 可 能 与 E O C D o g 对 象 相 等 。 不 过 ， 有 时 我 们 可 能 认 为 ： ⼀ 个
+ E O C P e r s o n 实 例 可 以 与 其 ⼦ 类 （ ⽐ 如 E O C S m i t h P e r s o n ） 实 例 相 等 。 在 继 承 体 系 （ i n h e r i t a n c e
+ h i e r a r c h y ） 中 判 断 等 同 性 时 ， 经 常 遭 遇 此 类 问 题 。 所 以 实 现 “ i s E q u a l ： ” ⽅ 法 时 要 考 虑 到 这 种
+ 情 况 。 最 后 ， 检 测 每 个 属 性 是 否 相 等 。 只 要 其 中 有 不 相 等 的 属 性 ， 就 判 定 两 对 象 不 等 ， 否 则
+ 两 对 象 相 等 。
+ 
+ 接 下 来 该 实 现 h a s h ⽅ 法 了 。 回 想 ⼀ 下 ， 根 据 等 同 性 约 定 ： 若 两 对 象 相 等 ， 则 其 哈 希 码
+ （ h a s h ） ® 也 相 等 ， 但 是 两 个 哈 希 码 相 同 的 对 象 却 未 必 相 等 。 这 是 能 否 正 确 覆 写 “ i s E q u a l ： ” ⽅ 法
+ 的 关 键 所 在 。 下 ⾯ 这 种 写 法 完 全 可 ⾏ ：
+ - (NSUInteger) hash {
+   return 1337;
+ }
+ 
+ 不 过 若 是 这 么 写 的 话 ， 在 c o l l e c t i o n 中 使 ⽤ 这 种 对 象 将 产 ⽣ 性 能 问 题 ， 因 为 c o l l e c t i o n 在
+ 检 索 哈 希 表 （ h a s h t a b l e ） 时 ， 会 ⽤ 对 象 的 哈 希 码 做 索 引 。 假 如 某 个 c o l l e c t i o n 是 ⽤ s e t ° 实 现 的 ，
+ 那 么 s e t 可 能 会 根 据 哈 希 码 把 对 象 分 装 到 不 同 的 数 组 ® 中 。 在 向 s e t 中 添 加 新 对 象 时 ， 要 根 据 其
+ 哈 希 码 找 到 与 之 相 关 的 那 个 数 组 ， 依 次 检 查 其 中 各 个 元 素 ， 看 数 组 中 已 有 的 对 象 是 否 和 将 要
+ 添 加 的 新 对 象 相 等 。 如 果 相 等 ， 那 就 说 明 要 添 加 的 对 象 已 经 在 s e t ⾥ ⾯ 了 。 由 此 可 知 ， 如 果
+ 令 每 个 对 象 都 返 回 相 同 的 哈 希 码 ， 那 么 在 s e t 中 已 有 1 0 0 0 0 0 0 个 对 象 的 情 况 下 ， 若 是 继 续 向
+ 其 中 添 加 对 象 ， 则 需 将 这 1 0 0 0 0 0 0 个 对 象 全 部 扫 描 ⼀ 遍 。
+ 
+ - (NSUInteger) hash {
+ NSString *stringToHash =
+ [NSStringstringWithFormat: @"8@:80:81",
+ firstName, _lastName, _agel;
+ return [stringToHash hash];
+ }
+ 
  */
+
+
+/*
+ 第 9 条 ： 以 “ 类 族 模 式 ” 隐 藏 实 现 细 节
+ “ 类 族 ” （ c l a s s c l u s t e r ） 是 ⼀ 种 很 有 ⽤ 的 模 式 （ p a t t e r n ） ， 可 以 隐 藏 “ 抽 象 基 类 ” （ a b s t r a c t
+ b a s e c l a s s ） 背 后 的 实 现 细 节 。 O b j e c t i v e - C 的 系 统 框 架 中 普 遍 使 ⽤ 此 模 式 。 ⽐ 如 ， i O S 的 ⽤ 户
+ 界 ⾯ 框 架 （ u s e r i n t e r f a c e f r a m e w o r k ） U I K i t 中 就 有 ⼀ 个 名 为 U I B u t t o n 的 类 。 想 创 建 按 钮 ， 需
+ 要 调 ⽤ 下 ⾯ 这 个 “ 类 ⽅ 法 ” （ c l a s s m e t h o d ） 。 ：
+ + (UIButton*) buttonWithType: (UIButtonType) type;
+ 
+ 现 在 举 例 来 演 示 如 何 创 建 类 族 。 假 设 有 ⼀ 个 处 理 雇 员 的 类 ， 每 个 雇 员 都 有 “ 名 字 ” 和
+ “ 薪 ⽔ ” 这 两 个 属 性 ， 管 理 者 可 以 命 令 其 执 ⾏ ⽇ 常 ⼯ 作 。 但 是 ， 各 种 雇 员 的 ⼯ 作 内 容 却 不 同 。
+ 经 理 在 带 领 雇 员 做 项 ⽬ 时 ， ⽆ 须 关 ⼼ 每 个 ⼈ 如 何 完 成 其 ⼯ 作 ， 仅 需 指 示 其 开 ⼯ 即 可 。
+ 
+ */
+
+// 2. 然后是类声明
+//@interface EOCEmployee : NSObject
+//@property (copy) NSString *name;
+//@property NSUInteger salary;
+//+ (EOCEmployee *)employeeWithType:(EOCEmployeeType)type;
+//@end
+//
+//// 3. 最后是实现
+//@implementation EOCEmployee
+//
+//@end
+
+
