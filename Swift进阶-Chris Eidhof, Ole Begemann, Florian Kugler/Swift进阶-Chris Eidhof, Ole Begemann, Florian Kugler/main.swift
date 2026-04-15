@@ -7,7 +7,7 @@
 
 import Foundation
 
-Chapter1_2.Set()
+Chapter2.MoreSequence()
 
 print("Hello, World!")
 
