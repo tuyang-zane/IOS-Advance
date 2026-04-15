@@ -7,5 +7,7 @@
 
 import Foundation
 
+Chapter1_2.Set()
+
 print("Hello, World!")
 
