@@ -7,7 +7,5 @@
 
 import Foundation
 
-Chapter2.MoreSequence()
-
-print("Hello, World!")
+Chapter4().WriteInCopy3()
 
