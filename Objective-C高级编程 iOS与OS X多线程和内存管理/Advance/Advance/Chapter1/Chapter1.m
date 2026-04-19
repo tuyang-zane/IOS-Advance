@@ -6,6 +6,7 @@
 //
 
 #import "Chapter1.h"
+#import "Test.h"
 
 @implementation Chapter1
 /*
@@ -441,7 +442,238 @@
 
 /*
  1.3 ARC规则
+ __strong修饰:是id类型和对象类型默认的所有权修饰符。
+     相同
+     id obj = [[NSObject alloc]init];
+     id __strong obj = [[NSObject alloc]init];
 
+     ARC无效时,等同于上面，持有强引用的变量在超出去作用域时被废弃，随着强引用失效，引用的对象会随之释放
+     {
+        id obj = [[NSObject alloc]init];
+        [obj release];
+     }
+ 
+     正 如 苹 果 宣 称 的 那 样 ， 通 过 _ s t r o n g 修 饰 符 ， 不 必 再 次 键 ⼊ r e t a i n 或 者 r e l e a s e ， 完 美 地 满 ⾜
+     了 “ 引 ⽤ 计 数 式 内 存 管 理 的 思 考 ⽅ 式 ” ：
+     • ⾃ ⼰ ⽣ 成 的 对 象 ， ⾃ ⼰ 所 持 有 。
+     • ⾮ ⾃ ⼰ ⽣ 成 的 对 象 ， ⾃ ⼰ 也 能 持 有 。
+     • 不 再 需 要 ⾃ ⼰ 持 有 的 对 象 时 释 放 。
+     • ⾮ ⾃ ⼰ 持 有 的 对 象 ⽆ 法 释 放 。
+     前 两 项 “ ⾃ ⼰ ⽣ 成 的 对 象 ， ⾃ ⼰ 持 有 ” 和 “ ⾮ ⾃ ⼰ ⽣ 成 的 对 象 ， ⾃ ⼰ 也 能 持 有 ” 只 需 通 过 对
+     带_ s t r o n g 修 饰 符 的 变 量 赋 值 便 可 达 成 。 通 过 废 弃 带 _ _ s t r o n g 修 饰 符 的 变 量 （ 变 量 作 ⽤ 域 结 束 或
+     是 成 员 变 量 所 属 对 象 废 弃 ） 或 者 对 变 量 赋 值 ， 都 可 以 做 到 “ 不 再 需 要 ⾃ ⼰ 持 有 的 对 象 时 释 放 ” 。
+     最 后 ⼀ 项 “ ⾮ ⾃ ⼰ 持 有 的 对 象 ⽆ 法 释 放 ” ， 由 于 不 必 再 次 键 ⼊ r e l e a s e ， 所 以 原 本 就 不 会 执 ⾏ 。 这
+     些 都 满 ⾜ 于 引 ⽤ 计 数 式 内 存 管 理 的 思 考 ⽅ 式 。
  */
++ (void)strong{
+    
+    {
+        // 自己生成并持有对象
+        id obj = [[NSObject alloc]init];
+        id __strong obj1 = [[NSObject alloc]init];
+    }
+    // ocj超出作用域，引用失效，引用的对象会随之释放
+
+    
+    {
+        // 取得非自己持有的对象
+        id __strong obj = [NSMutableArray array];
+    }
+    // ocj超出作用域，引用失效，引用的对象会随之释放
+    
+    
+    // 附有 __strong修饰符的变量之间可以相互赋值
+    {
+        // 对象A，obj0持有对象A的强引用
+        id __strong obj0 = [[NSObject alloc]init];
+        // 对象A，obj1持有对象B的强引用
+        id __strong obj1 = [[NSObject alloc]init];
+        // obj2不持有任何对象
+        id __strong obj2 = nil;
+        /*
+         o b j 0 持 有 由 o b j 1 賦 值 的 对 象 B 的 强 引 ⽤
+         因 为 o b j 0 被 赋 值 ， 所 以 原 先 持 有 的 对 对 象 A 的 强 引 ⽤ 失 效 。
+         * 对 象 A 的 所 有 者 不 存 在 ， 因 此 废 弃 对 象 A 。
+         *
+         * 此 时 ， 持 有 对 象 B 的 强 引 ⽤ 的 变 量 为
+         * o b j 0 和 o b j 1 o
+         */
+        obj0 = obj1;
+        // obj2、obj1、obj0都持有对象B
+        obj2 = obj0;
+        // obj2、obj1都持有对象B
+        obj0 = nil;
+        // obj2都持有对象B
+        obj1 = nil;
+        // 对象B的强引用失效，对象B的所有者不存在。因 此 废 弃 对 象 B
+        obj2 = nil;
+    }
+    
+    {
+        // test 持有Test对象的强引用
+        id __strong test = [[Test alloc]init];
+        // Test 对象的 _obj成员持有 NSObject 对象的强引用
+        [test setObjetc:[[NSObject alloc]init]];
+    }
+    // 因为test超出作用域，强引用失效，所以自动释放Test对象，Test对象的所有者不存在，因此废弃该对象
+    // 废弃Test对象的同时，_obj成员也被废弃，NSObject对象的所有者不存在，因此也被废弃
+}
+
+/*
+ __weak修饰符：看 起 来 好 像 通 过
+ _ s t r o n g 修 饰 符 编 译 器 就 能 够 完 美 地 进 ⾏ 内 存 管 理 。 但 是 遗 憾 的 是 ， 仅 通 过
+ s t r o n g 修 饰 符 是 不 能 解 决 有 些 重 ⼤ 问 题 的 。
+ 这 ⾥ 提 到 的 重 ⼤ 问 题 就 是 引 ⽤ 计 数 式 内 存 管 理 中 必 然 会 发 ⽣ 的 “ 循 环 引 ⽤ ” 的 问
+ */
++ (void)weak{
+    // 循环引用
+    {
+        // test0持有 对象TestA的强引用
+        id test0 = [[Test alloc] init];
+        // test1持有 对象TestB的强引用
+        id test1 = [[Test alloc] init];
+        // 对象TestA的_obj 持有 test1的强引用
+        [test0 setObjetc:test1];
+        // 对象TestB的_obj 持有 test0的强引用
+        [test1 setObjetc:test0];
+        
+        // 此时对象TestA的强引用变量为test0和对象TestB的_obj
+        // TestB的强引用变量为test1和对象TestA的_obj
+    }
+    // 因为test0变量超出作用域，释放test0持有的TestA的引用
+    
+    // 因为test1变量超出作用域，释放test1持有的TestB的引用
+    
+    // 此时持有TestA的强引用为TestB的_obj
+    // 此时持有TestB的强引用为TestA的_obj
+    // 发生内存泄漏
+    
+    {
+        // 生成并对对象弱引用
+        id __weak obj0 = [[NSObject alloc]init];
+
+        // 自己生成并持有对象
+        id __strong obj1 = [[NSObject alloc]init];
+        // obj2持有生成对象的弱引用
+        id __weak obj2 = obj1;
+    }
+    // 超出域自动释放
+}
+
+/*
+ __unsafe_unretained: 修 饰 符 正 如 其 名 u n s a f e 所 ⽰ ， 是 不 安 全 的 所 有 权 修 饰 符 。 尽 管 A R C 式
+ 的 内 存 管 理 是 编 译 器 的 ⼯ 作 ， 但 附 有 _ _ u n s a f e _ u n r e t a i n e d 修 饰 符 的 变 量 不 属 于 编 译 器 的 内 存 管 理
+ 对 象 。 这 ⼀ 点 在 使 ⽤ 时 要 注 意
+ */
++ (void)unsafeunretained{
+    // 和__weak一样，因为自己生成持有的对象不能为自己所有，立即释放
+    id __unsafe_unretained obj = [[NSObject alloc]init];
+    
+    id __unsafe_unretained obj1 = nil;
+    {
+        id __strong obj0 = [[NSObject alloc]init];
+        obj1 = obj0; // 不持有强引用，也不持有弱引用
+        NSLog(@"A: %@",obj1);
+    }
+    // 对象无持有者，所以废弃该对象，碰巧正常运行而已
+    NSLog(@"B: %@",obj1);  // 👈 野指针！悬垂指针！
+    /*
+     不是正常，是运气好！
+     内存还没被覆盖
+     内存数据还残留
+     系统还没复用这块内存
+     一旦内存被覆盖 → 直接崩溃（坏内存访问、EXC_BAD_ACCESS）
+     */
+}
+
+/*
+ __autoreleasing
+ 另 外 ， 根 据 后 ⾯ 要 讲 到 的 遵 守 内 存 管 理 ⽅ 法 命 名 规 则 （ 参 考 1 . 3 . 4 节 ） ， i n i t ⽅ 法 返 回 值 的 对
+ 象 不 注 册 到 a u t o r e l e a s e p o o l
+ 
+ 那 么 i d 的 指 针 i d * o b j
+ 推 出 来 的 是 i d _ a u t o r e l e a s i n g * o b j 。 同 样 地 ， 对 象 的 指 针 N S O b j e c t * * o b j 便 成 为
+T NSObject * autoreleasing *obj.
+ 
+ 只 有
+作 为 a l l o c / n e w / c o p y / m u t a b l e C o p y ⽅ 法 的 返 回 值 ⽽ 取 得 对 象 时 ， 能 够 ⾃ ⼰ ⽣ 成 并 持 有 对 象 。 其 他
+情 况 即 “ 取 得 ⾮ ⾃ ⼰ ⽣ 成 并 持 有 的 对 象
+ 
+显 式 地 指 定 _ _ a u t o r e l e a s i n g 修 饰
+符 时 ， 必 须 注 意 对 象 变 量 要 为 ⾃ 动 变 量 （ 包 括 局 部 变 量 、 函 数 以 及 ⽅ 法 参 数
+ */
+
+
++ (void)autoreleasing{
+    // ARC 无效时会像下面这样使用
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc]init];
+    id obj = [[NSObject alloc]init];
+    [obj autorelease];
+    [pool drain];
+    
+    /*
+     ARC 有效时
+     @autoreleasepool 来替代 NSAutoreleasePool对象生成
+     __autoreleasing 来替换 [obj autorelease]方法，即对象注册到autoreleasePool
+     但是显示的添加__autoreleasing和显示添加__strong一样，
+     这 是 由 于 编 译 器 会 检 查 ⽅ 法 名 是 否 以 a l l o c / n e w /
+    c o p y / m u t a b l e C o p y 开 始 ， 如 果 不 是 则 ⾃ 动 将 返 回 值 的 对 象 注 册 到 a u t o r e l e a s e p o o l
+     */
+    @autoreleasepool {
+        id __autoreleasing obj = [[NSObject alloc]init];
+    }
+    
+    @autoreleasepool {
+        // 取得非自己生成并持有对象
+        id __strong obj = [NSMutableArray array];
+        // 因obj是强引用，所以自己持有对象，并且该对象由编译器判断方法名自动注册到autoreleasePool
+    }
+    // 超出作用域，自动释放自己持有的对象。同时随着@autoreleasepool块结束注册到pool的所有对象被自动释放
+
+    //在 访 问 附 有 _ w e a k 修 饰 符 的 变 量 时 ， 实 际 上 必 定 要 访 问 注 册 到 a u t o r e l e a s e p o o l 的 对 象 。
+    {
+        id  obj0 = [[NSObject alloc]init];
+        id __weak obj1 = obj0;
+        
+        // 与下面相同
+//        id __weak obj1 = obj0;
+//        id __autoreleasing temp = obj1;
+        /*
+         为 什 么 在 访 问 附 有 _ w e a k 修 饰 符 的 变 量 时 必 须 访 问 注 册 到 a u t o r e l e a s e p o o l 的 对 象 呢 ？ 这 是
+         因 为 _ w e a k 修 饰 符 只 持 有 对 象 的 弱 引 ⽤ ， ⽽ 在 访 问 引 ⽤ 对 象 的 过 程 中 ， 该 对 象 有 可 能 被 废 弃 。
+         如 果 把 要 访 问 的 对 象 注 册 到 a u t o r e l e a s e p o o l 中 ， 那 么 在 @ @ a u t o r e l e a s e p o o l 块 结 束 之 前 都 能 确 保 该 对
+         象 存 在 。 因 此 ， 在 使 ⽤ 附 有 _ w e a k 修 饰 符 的 变 量 时 就 必 定 要 使 ⽤ 注 册 到 a u t o r e l e a s e p o o l 中 的 对 象 。
+         */
+    }
+}
+
++ (id) array{
+    id obj = [[NSMutableArray alloc]init];
+    return obj;
+}
+// __strong 超出作用域自动释放,由于return会被释放，但是作为函数的返值 会被自己加入autoreleasePool
+
+- (void) error{
+    NSError * error = nil;
+    BOOL result = [self performSelectorWitherror:&error];
+    
+    // 相同
+    NSError ** pError1 = &error;
+    NSError * __strong * pError2 = &error;
+}
+
+/*
+ 使 ⽤ 附 有 _ _ a u t o r e l e a s i n g 修 饰 符 的 变 量 作 为 对 象 取 与 除 a l l o c / n e w / c o p y / m u t a b l e C o p y 外 其 他 ⽅ 法 的 返 回 值 取 得 对 象 完 全 ⼀ 样 ， 都 会 注 册 到
+ a u t o r e l e a s e p o o l ， 并 取 得 ⾮ ⾃ ⼰ ⽣ 成 并 持 有 的 对 象
+ */
+- (BOOL)performSelectorWitherror:(NSError **)error{
+    return false;
+}
+
+// 等同于
+- (BOOL)performSelectorWitherror1:(NSError * __autoreleasing *)error{
+//    *error = [[NSError alloc]initWithDomain:MyAppDomain code:erroCode userInfo:nil];
+    return false;
+}
 
 @end

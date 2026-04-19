@@ -14,7 +14,7 @@ int main(int argc, const char * argv[]) {
         Chapter1 * c = [[Chapter1 alloc]init];
         [c retainCount];
         
-        [Chapter1 appleAutorelease];
+        [Chapter1 unsafeunretained];
         NSLog(@"Hello, World!");
     }
     return EXIT_SUCCESS;
