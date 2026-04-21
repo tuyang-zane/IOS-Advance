@@ -7,5 +7,5 @@
 
 import Foundation
 
-Chapter6().chapter6_2()
+Chapter6().chapter6_4()
 
