@@ -59,11 +59,11 @@ final class Empty{}
 
 struct COWStruct {
     var ref:Empty = Empty()
-    mutating func changing() -> String {
-        if isKnownUniquelyReferenced($ref) {
-            
-        }
-    }
+//    mutating func changing() -> String {
+//        if isKnownUniquelyReferenced($ref) {
+//            
+//        }
+//    }
 }
 
 extension Chapter4{

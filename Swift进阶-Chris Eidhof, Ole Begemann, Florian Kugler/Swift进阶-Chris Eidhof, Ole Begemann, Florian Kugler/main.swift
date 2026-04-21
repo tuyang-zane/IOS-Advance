@@ -7,5 +7,5 @@
 
 import Foundation
 
-Chapter4().WriteInCopy3()
+Chapter6().chapter6_2()
 
