@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)Chapter1_2;
 - (void)retainCount;
 + (void)appleAutorelease;
++ (void)weak;
 @end
 
 NS_ASSUME_NONNULL_END

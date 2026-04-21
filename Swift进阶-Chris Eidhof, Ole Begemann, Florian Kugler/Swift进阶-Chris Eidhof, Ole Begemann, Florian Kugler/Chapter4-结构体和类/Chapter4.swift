@@ -51,24 +51,48 @@ import Cocoa
  “当你定义你自己的结构体和类的时候，需要特别注意那些原本就可以复制和可变的行为。结构体应该是具有值语义的。当你在一个结构体中使用类时，我们需要保证它确实是不可变的。如果办不到这一点的话，我们就需要 (像上面那样的) 额外的步骤。或者就干脆使用一个类，这样我们的数据的使用者就不会期望它表现得像一个值。”
  
  “写时复制的陷阱”
- 
- 
+ “如果在你将一个写时复制的结构体放到字典中，又想要避免这种复制的话，你可以将值用类封装起来，这将为值赋予引用语义。”
+ “当你在使用自己的结构体时，也需要将这一点牢记于心。比如，我们可以创建一个储存某个值的简单地容器类型，通过直接访问存储的属性，或者间接地使用下标，都可以访问到这个值。当我们直接访问它的时候，我们可以获取写时复制的优化，但是当我们用下标间接访问的时候，复制会发生：
  */
+
+struct ContainerStruct<A> {
+    var storage:A
+    subscript(s:String) -> A{
+        get{return storage}
+        set{storage = newValue}
+    }
+    
+}
 
 final class Empty{}
 
 struct COWStruct {
     var ref:Empty = Empty()
-//    mutating func changing() -> String {
-//        if isKnownUniquelyReferenced($ref) {
-//            
-//        }
-//    }
+    mutating func changing() -> String {
+        if isKnownUniquelyReferenced(&ref) {
+            return "No copy"
+        }else{
+            return "Copy"
+        }
+    }
 }
 
 extension Chapter4{
     func WriteInCopy4() -> Void {
+        var array = [COWStruct()]
+        print("WriteInCopy4=====  \(array[0].changing())")
         
+        var otherArr = [COWStruct()]
+        var x = otherArr[0]
+        print("WriteInCopy4=====  \(x.changing())")
+        
+        //“字典的下标将会在字典中寻找值，然后将它返回。”
+        var dict = ["key":COWStruct()]
+        print("WriteInCopy4=====  \(dict["key"]?.changing())")
+
+        var d = ContainerStruct(storage: COWStruct())
+        print("WriteInCopy4=====  \(d.storage.changing()) \(d["test"].changing())")
+
     }
 }
 
@@ -304,4 +328,167 @@ extension BinaryScane{
         postion += 1
         return data[postion - 1]
     }
+}
+
+
+/*
+ 闭包和可变性
+ “每次我们调用该函数时，共享的变量 i 都会改变，一个不同的整数值将被返回。函数也是引用类型，如果我们将 uniqueInteger 赋值给另一个变量，编译器将不会复制这个函数或者 i。相反，它将会创建一个指向相同函数的引用。”
+ 
+ 
+ 内存
+ “对于类，Swift 使用自动引用计数 (ARC) 来进行内存管理。在大多数情况下，这意味着所有事情都将按预想工作。每次你创建一个对象的新的引用 (比如为类变量赋值)，引用计数会被加一。一旦引用失效 (比如变量离开了作用域)，引用计数将被减一。如果引用计数为零，对象将被销毁。遵循这种行为模式的变量也被叫做强引用 (它是相对于我们稍后要提到的 weak 和 unowned 引用而言的)。”
+ 
+ weak
+ “要打破引用循环，我们需要确保其中一个引用要么是 weak，要么是 unowned。当你将一个变量标记为 weak 时，将某个值赋值给这个变量时，它的引用计数不会被改变。Swift 中的弱引用是趋零的：当一个弱引用变量所引用的对象被释放时，这个变量将被自动设为 nil。这也是弱引用必须被声明为可选值的原因”
+ “在使用 delegate 的时候，弱引用会非常有用，这在 Cocoa 中也很常见。调用 delegate 方法的对象 (比如，一个 table view) 需要知道 delegate，但它不应该持有这个 delegate，否则，很可能就会造成引用循环。所以，delegate 一般都会被标记为 weak。确保 delegate 在需要的时候一直存在通常是另外的对象 (比如，一个 view controller) 的职责。”
+ 
+ 
+ unowned
+ “因为 weak 引用的变量可以变为 nil，所以它们必须是可选值类型，但是有些时候这并不是你想要的。例如，也许我们知道我们的 view 将一定有一个 window，这样这个属性就不应该是可选值，而同时我们又不想一个 view 强引用 window。这种情况下，我们可以使用 unowned 关键字：”
+ “这样写依然没有引用循环，但是我们要负责保证 window 的生命周期比 view 长。如果 window 先被销毁，然后我们访问了 view 上这个 unowned 的变量的话，就会造成运行崩溃。”
+ 
+ “是应该选择使用 unowned 呢，还是应该使用 weak？从根本上来说，这个问题取决于相关对象的生命周期。如果这些对象的生命周期互不相关，也就是说，你不能保证哪一个对象存在的时间会比另一个长，那么弱引用就是唯一的选择。
+ 另一种情况下，如果你可以保证非强引用对象拥有和强引用对象同样或者更长的生命周期的话，unowned 引用通常会更方便一些。这是因为我们可以不需要处理可选值，而且变量将可以被 let 声明，而与之相对，弱引用必须被声明为可选的 var。同样的生命周期是很常见的，特别是当两个物体拥有主从关系的时候。当主对象通过强引用控制子对象的生命周期，而且你可以确定没有其他对象知道这个子对象的存在时，子对象对主对象的逆向引用就可以是 unowned 引用。
+ 
+ “闭包和内存”
+ “闭包捕获它们的变量的一个问题是它可能会 (意外地) 引入引用循环。常见的模式是这样的：对象 A 引用了对象 B，但是对象 B 存储了一个包含对象 A 的回调。”
+ 
+ 
+ 捕获列表
+ “为了打破上面的循环，我们需要保证闭包不去引用 视图。我们可以通过使用捕获列表并将捕获变量 view 标记为 weak 或者 unowned 来达到这个目的。”
+ “window?.onRotate = { [weak view] in
+ print("We now also need to update the view: \(view)")
+ }”
+ */
+
+class View3 {
+    var window:Window3
+    init(window: Window3) {
+        self.window = window
+    }
+    deinit {
+        print("Deinit View")
+    }
+}
+
+class Window3 {
+    weak var rootView:View3?
+    var onRotate:(() -> ())?
+    deinit {
+        print("Deinit Window")
+    }
+
+}
+
+extension Chapter4{
+    func closeMemory() -> Void {
+        var window:Window3? = Window3() // window:1
+        var view:View3? = View3(window: window!) // window:2 view:1
+        window?.rootView = view // window:2 view1
+        window?.onRotate = {[weak view,weak myWindow = window,x = 5*5] in
+            print("We now also need to update the view: \(view)")
+            print("Because the window \(myWindow) changed")
+        }
+//        view = nil // window:1 view0  View销毁， view里面的window 强引用销毁也就是第二行
+//        window = nil // window:0 view0
+    }
+}
+
+
+class View2 {
+    unowned var window:Window2
+    init(window: Window2) {
+        self.window = window
+    }
+    deinit {
+        print("Deinit View")
+    }
+}
+
+class Window2 {
+    weak var rootView:View2?
+    deinit {
+        print("Deinit Window")
+    }
+
+}
+
+class View {
+    var window:Window
+    init(window: Window) {
+        self.window = window
+    }
+    
+    deinit {
+        print("Deinit View")
+    }
+}
+
+class Window {
+    weak var rootView:View?
+    // View 销毁后，它内部强引用的 window 也自动释放：
+
+    deinit {
+        print("Deinit Window")
+    }
+}
+
+
+extension Chapter4{
+    
+    func memory() -> Void {
+//        var myWindow:Window? = Window()
+//        myWindow = nil
+
+//        var window:Window? = Window() // window:1
+//        var view:View? = View(window: window!) // window:2 view:1
+//        window?.rootView = view // window:2 view2
+//        view = nil // window:2 view1
+//        window = nil // window:1 view1
+        
+        
+//        var window:Window? = Window() // window:1
+//        var view:View? = View(window: window!) // window:2 view:1
+//        window?.rootView = view // window:2 view1
+//        view = nil // window:1 view0  View销毁， view里面的window 强引用销毁也就是第二行
+//        window = nil // window:0 view0
+
+        var window:Window2? = Window2() // window:1
+        var view:View2? = View2(window: window!) // window:2 view:1
+        window?.rootView = view // window:2 view1
+        view = nil // window:1 view0  View销毁， view里面的window 强引用销毁也就是第二行
+        window = nil // window:0 view0
+
+    }
+    
+    
+    func closeValue() -> Void {
+        var i = 0
+        func uniqueInter() -> Int {
+            i += 1
+            return i
+        }
+        
+        let otherFunc:() -> Int = uniqueInter
+        
+    }
+    
+    func uniqueInterProvider() -> () -> Int {
+        
+        var i = 0
+        return{
+            i += 1
+            return i
+        }
+    }
+    
+    func uniqueInterProvider1() -> AnyIterator<Int> {
+        var i = 0
+        return AnyIterator{
+            i += 1
+            return i
+        }
+    }
+    
 }
