@@ -367,8 +367,28 @@ extension Array {
  }”
 
  Tip 17　初始化方法顺序”
-
+ 1、设置子类自己需要初始化的参数，power = 10。
+ 2、调用父类的相应的初始化方法，super.init()。
+ 3、对父类中的需要改变的成员进行设定，name = "tiger"。”
+ 
  */
+
+class Cat {
+    var name:String
+    init() {
+        self.name = "cat"
+    }
+}
+
+class Tiger:Cat{
+    let pow:String
+    init(pow: String) {
+        self.pow = pow
+//        自动完成 super.init()
+//        super.init()
+//        name = "Tiger"
+    }
+}
 
 extension Tips1{
     func main14() -> Void {
@@ -385,4 +405,32 @@ extension Tips1{
 protocol GeneratorType{
     associatedtype Element
     func next() -> Element?
+}
+
+
+/*
+ Tip 18　Designated、Convenience和Required”
+ “与designated初始化方法对应的是在init前加上convenience关键字的初始化方法。这类方法是Swift初始化方法中的“二等公民”，只作为补充和提供使用上的方便。所有的convenience初始化方法都必须调用同一个类
+  中的designated初始化完成设置，另外convenience的初始化方法是不能被子类重写的，也不能从子类中以super的方式被调用”
+
+ 
+ */
+
+class ClassA {
+    let numA:Int
+    init(num: Int) {
+        self.numA = num
+    }
+    convenience init(bigNum: Int) {
+        self.init(num: bigNum)
+    }
+}
+
+
+class ClassB: ClassA {
+    let numB:Int
+    convenience init(numB: Int) {
+        self.numB += numB
+        super.init(numA: self.numB)
+    }
 }
