@@ -110,7 +110,56 @@ class Chapter8: NSObject {
     func raise(_ base: Double, to exponent: Double) -> Double {
         return pow(base, exponent)
     }
+    
     func raise(_ base: Float, to exponent: Float) -> Float {
         return powf(base, exponent)
     }
+    
+}
+
+/*
+ “泛型的工作方式”
+ 编译器不知道 (包括参数和返回值在内的) 类型为 T 的变量的大小
+ 编译器不知道需要调用的 < 函数是否有重载，因此也不知道需要调用的函数的地址。
+ 
+ Swift通过为泛型代码引入一层间接的中间层来解决这些问题。当编译器遇到一个泛型类型的值时，它会将其包装到一个容器中。这个容器有固定的大小，并存储这个泛型值。如果这个值超过容器的尺寸，Swift 将在堆上申请内存，并将指向堆上该值的引用存储到容器中去。”
+ 对于每个泛型类型的参数，编译器还维护了一系列一个或者多个所谓的目击表 (witness table)：其中包含一个值目击表，以及类型上每个协议约束一个的协议目击表。这些目击表 (也被叫做 vtable) 将被用来将运行时的函数调用动态派发到正确的实现去。
+ “对于任意的泛型类型，总会存在值目击表，它包含了指向内存申请，复制和释放这些类型的基本操作的指针。这些操作对于像是 Int 这样的原始值类型来说，可能不需要额外操作，或者只是简单的内存复制，不过对于引用类型来说，这里也会包含引用计数的逻辑。值目击表同时还记录了类型的大小和对齐方式。”
+ “我们这个例子中的泛型类型 T 将会包含一个协议目击表，因为 T 有 Comparable 这一个约束。对于这个协议声明的每个方法或者属性，协议目击表中都会含有一个指针，指向该满足协议的类型中的对应实现。在泛型函数中对这些方法的每次调用，都会在运行时通过目击表准换为方法派发。在我们的例子中，y < x 这个表达式就是以这种方式进行派发的。”
+ 
+ 泛型特化
+ “相应地，因为需要经过的代码不是那么直接，所以这种做法的缺点是运行时性能会较低。对于单个的函数调用来说这点开销是可以忽略的，但是因为泛型在 Swift 中非常普及，所以它这种性能开销很容易堆叠起来，造成性能问题。标准库到处都是泛型，包括比较值的大小在内的很多常用操作必须尽可能快速。因为这类操作十分频繁，所以尽管泛型代码只是比非泛型代码慢一点点，开发者可能也会选择不去使用泛型版本。
+ 不过 Swift 可以通过泛型特化 (generic specialization) 的方式来避免这个额外开销。泛型特化是指，编译器按照具体的参数参数类型 (比如 Int)，将 min<T> 这样的泛型类型或者函数进行复制。特化后的函数可以将针对 Int 进行特殊优化，移除所有的非直接因素。所以 min<T> 针对 Int 的特化版本是这样的：”
+ func min(_ x: Int, _ y: Int) -> Int {
+     return y < x ? y : x
+ }
+ min 函数，而只调用了一次 Float 的版本，那很有可能只有 Int 的版本会被特化处理。你应该在编译的时候确保开启优化 (使用命令行的话，是 swiftc -O)，这样你可以用到所有可能的启发式算法来进行优化。”
+ 
+ 全模块优化
+ 
+ */
+
+extension Chapter8{
+    
+    func main1() -> Void {
+        
+    }
+    
+    func min<T:Comparable>(_ x:T,_ y:T) -> T {
+        return y < x ? y : x
+    }
+    
+    /*
+     “总结一下，对于 min 函数，编译器生成的伪代码看上去会是这样的：
+     func min<T: Comparable>(_ x: Box_T, _ y: Box_T,
+     valueWTable_T: VTable, comparableWTable_T: VTable)
+     -> Box_T
+     {
+         let xCopy = valueWTable_T.copy(x)
+         let yCopy = valueWTable_T.copy(y)
+         let result = comparableWTable_T.lessThan(yCopy, xCopy) ? y : x
+         valueWTable_T.release(xCopy)
+         valueWTable_T.release(yCopy)
+     }
+     */
 }
