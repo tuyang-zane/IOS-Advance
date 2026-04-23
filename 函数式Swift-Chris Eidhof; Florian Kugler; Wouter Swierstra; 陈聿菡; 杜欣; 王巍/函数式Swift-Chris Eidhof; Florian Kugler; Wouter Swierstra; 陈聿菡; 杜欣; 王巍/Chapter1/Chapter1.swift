@@ -17,6 +17,12 @@ import Cocoa
  函数是值，它和结构体、整型或是布尔型没有什么区别 —— 对函数使⽤另外⼀套命名规则会
  违背这⼀理念。
  
+ 这个例子再一次阐释了将复杂的代码拆解为小块的方式，而这些小块可以使用函数的方式进行重新装配，并形成完整的功能。本章的目标并不是为 Core Image 定义一个完整的 API，而是想说明在更实际的案例中如何使用高阶函数和复合函数。”
+ 1、安全 — 使用我们构筑的 API 几乎不可能发生由未定义键或强制类型转换失败导致的运行时错误。
+ 2、模块化 — 使用 >>> 运算符很容易将滤镜进行组合。这样你可以将复杂的滤镜拆解为更小，更简单，且可复用的组件。此外，组合滤镜与组成它的组件是完全相同的类型，所以你可以交替使用它们。
+ 3、清晰易懂 — 即使你从未使用过 Core Image，也应该能够通过我们定义的函数来装配简单的滤镜。你完全不需要关心 kCIInputImageKey 或 kCIInputRadiusKey 这样的特定键如何进行初始化。单看类型，你几乎就能够知道如何使用 API，甚至不需要更多文档。
+ 
+ 
  */
 
 typealias Distance = Double
@@ -63,6 +69,11 @@ extension Postion{
 
 class Chapter1: NSObject {
     
+    func main() -> Void {
+        let img:CIImage = CIImage(color: .black)
+        let result_img = blur(radius: 2)(img)
+    }
+    
     func circle(radius:Distance) -> Region {
         return {point in point.length < radius}
     }
@@ -87,7 +98,7 @@ typealias Region = (Postion) -> Bool
  对象的 API，展⽰如何使⽤⾼阶函数将其以⼩巧且函数式的⽅式进⾏封装。
  */
 
-typealias Filter = CIImage -> CIImage
+typealias Filter = (CIImage) -> CIImage
 
 //模糊
 func blur(radius:Double) -> Filter {
@@ -96,6 +107,23 @@ func blur(radius:Double) -> Filter {
             kCIInputRadiusKey: radius,
             kCIInputImageKey: image
         ]
-        
+        guard let filter = CIFilter(name: "CIGaussianBlur",
+                                    parameters: parameters)
+        else { fatalError() }
+        guard let outputImage = filter.outputImage
+        else { fatalError() }
+        return outputImage
     }
 }
+
+//func generate(color: UIColor) -> Filter {
+//    return { _ in
+//        let parameters = [kCIInputColorKey: CIColor(cgColor: color.cgColor)]
+//        guard let filter = CIFilter(name: "CIConstantColorGenerator",
+//        withInputParameters: parameters)
+//        else { fatalError() }
+//        guard let outputImage = filter.outputImage
+//        else { fatalError() }
+//        return outputImage
+//    }
+//}
