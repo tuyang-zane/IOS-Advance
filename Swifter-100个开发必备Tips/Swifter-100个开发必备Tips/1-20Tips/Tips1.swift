@@ -414,7 +414,27 @@ protocol GeneratorType{
   中的designated初始化完成设置，另外convenience的初始化方法是不能被子类重写的，也不能从子类中以super的方式被调用”
 
  
+ “Tip 19　初始化返回nil”
+
+ “Tip 20　protocol组合”
+ protocol<ProtocolA, ProtocolB, ProtocolC>
+ 
+ 
  */
+
+typealias Pro = A&B&C
+
+protocol A{
+    
+}
+
+protocol B{
+    
+}
+
+protocol C{
+    
+}
 
 class ClassA {
     let numA:Int
@@ -427,10 +447,10 @@ class ClassA {
 }
 
 
-class ClassB: ClassA {
-    let numB:Int
-    convenience init(numB: Int) {
-        self.numB += numB
-        super.init(numA: self.numB)
-    }
-}
+//class ClassB: ClassA {
+//    let numB:Int
+//    convenience init(numB: Int) {
+//        self.numB += numB
+//        super.init(numA: self.numB)
+//    }
+//}

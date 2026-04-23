@@ -7,7 +7,7 @@
 
 import Foundation
 
-Tips1().main14()
+Tips2().main2()
 
 print("Hello, World!")
 
