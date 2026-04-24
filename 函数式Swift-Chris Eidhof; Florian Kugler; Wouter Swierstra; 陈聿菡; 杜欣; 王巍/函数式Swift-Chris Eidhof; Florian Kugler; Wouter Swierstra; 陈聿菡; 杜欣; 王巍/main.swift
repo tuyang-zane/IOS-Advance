@@ -6,6 +6,6 @@
 //
 
 import Foundation
-Chapter2().main2()
+Chapter4().main()
 print("Hello, World!")
 

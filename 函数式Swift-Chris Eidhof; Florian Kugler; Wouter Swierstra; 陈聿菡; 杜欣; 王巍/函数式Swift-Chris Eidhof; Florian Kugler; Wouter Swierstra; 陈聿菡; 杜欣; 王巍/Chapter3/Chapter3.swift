@@ -26,7 +26,115 @@ import Cocoa
  纯函数式数据结构
  
  二叉搜索树
+ “想要提高性能，这里有一些可行的方式。例如，我们可以确保数组是经过排序的，然后使用二分查找来定位特定元素。或者再彻底一些，索性定义一个二叉搜索树 (Binary Search Trees) 来表示无序集合。我们可以用传统的 C 语言风格打造一个树形结构，在每个节点持有指向子树的指针。当然，也可以利用 Swift 中的 indirect 关键字，直接将二叉树结构定义为一个枚举：”
+ 
+ indirect 是 Swift 专门给 递归枚举（Recursive Enumeration） 用的关键字。
+ “这个定义规定了每一棵树，要么是：
+ 一个没有关联值的叶子 leaf，要么是
+ 一个带有三个关联值的节点 node，关联值分别是左子树，储存在该节点的值和右子树。”
+ 
  */
+
+
+indirect enum BinarySearchTree<Element:Comparable> {
+    case leaf
+    case node(BinarySearchTree<Element>,Element,BinarySearchTree<Element>)
+}
+
+extension BinarySearchTree{
+    init() {
+        self = .leaf
+    }
+    init(_ value:Element) {
+        self = .node(.leaf, value, .leaf)
+    }
+    
+    
+    //    “在枚举值为基本值 .leaf 时，可以直接返回 0。而在值为 .node 时就比较有意思：我们递归地计算了两个子树储存的元素个数，然后加 1 ，也就是当前节点存值的个数，再将它们的总和返回。”
+    var count: Int {
+        switch self {
+        case .leaf:
+            return 0
+        case let .node(left, _, right):
+            return left.count + 1 + right.count
+        }
+    }
+    
+    var elements: [Element] {
+        switch self {
+        case .leaf:
+            return []
+        case let .node(left, x, right):
+            return left.elements + [x] + right.elements
+        }
+    }
+    
+    var elementsR: [Element] {
+        return reduce(leaf: []) {$0 + [$1] + $2}
+    }
+
+    var countR: Int {
+        return reduce(leaf: 0) {1 + $0 + $2}
+    }
+
+    func reduce<A>(leaf leafF:A,node nodeF:(A,Element,A) -> A) -> A {
+        switch self {
+        case .leaf:
+            return leafF
+            case let .node(left, x, right):
+            return nodeF(left.reduce(leaf: leafF, node: nodeF),x,right.reduce(leaf: leafF, node: nodeF))
+        }
+    }
+    
+    var isEmpty: Bool {
+        if case .leaf = self {
+            return true
+        }
+        return false
+    }
+    
+    
+    
+}
+
+
+class Chapter3: NSObject {
+
+   func main() -> Void {
+       
+       let leaf:BinarySearchTree<Int> = .leaf
+       let five:BinarySearchTree<Int> = .node(leaf, 5, leaf)
+       
+       
+       let exampleSuccess:PopulationResult = .success(100)
+       do{
+//            populationOfCapital(country: "asd")
+       }catch{
+           
+       }
+   }
+   
+//    func populationOfCapital(country: String) -> PopulationResult {
+//        guard let capital = capitals[country] else {
+//            return .error(.capitalNotFound)
+//        }
+//        guard let population = cities[capital] else {
+//            return .error(.populationNotFound)
+//        }
+//        return .success(population)
+//    }
+   
+//    func populationOfCapital(country: String) throws -> Int {
+//        guard let capital = capitals[country] else {
+//            throw LookupError.capitalNotFound
+//        }
+//        guard let population = cities[capital] else {
+//            throw LookupError.populationNotFound
+//        }
+//        return population
+//    }
+}
+
 
 enum MayorResult {
     case success(String)
@@ -78,37 +186,5 @@ extension Encoding{
     var localizedName: String {
         return String.localizedName(of: nsStringEncoding)
     }
-}
- 
-class Chapter3: NSObject {
-
-    func main() -> Void {
-        let exampleSuccess:PopulationResult = .success(100)
-        do{
-//            populationOfCapital(country: "asd")
-        }catch{
-            
-        }
-    }
-    
-//    func populationOfCapital(country: String) -> PopulationResult {
-//        guard let capital = capitals[country] else {
-//            return .error(.capitalNotFound)
-//        }
-//        guard let population = cities[capital] else {
-//            return .error(.populationNotFound)
-//        }
-//        return .success(population)
-//    }
-    
-//    func populationOfCapital(country: String) throws -> Int {
-//        guard let capital = capitals[country] else {
-//            throw LookupError.capitalNotFound
-//        }
-//        guard let population = cities[capital] else {
-//            throw LookupError.populationNotFound
-//        }
-//        return population
-//    }
 }
 
