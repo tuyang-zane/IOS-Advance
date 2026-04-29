@@ -34,7 +34,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		84B798ED2F9F40DF005D8CF4 /* 模拟 */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "模拟"; sourceTree = "<group>"; };
+		84B798ED2F9F40DF005D8CF4 /* study */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = study; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +52,6 @@
 		D53071EA29983CEF00F1936C = {
 			isa = PBXGroup;
 			children = (
-				84B798ED2F9F40DF005D8CF4 /* 模拟 */,
 				D53071F529983CEF00F1936C /* Showcase */,
 				D53071F429983CEF00F1936C /* Products */,
 				D530720529983DCA00F1936C /* Frameworks */,
@@ -70,6 +69,7 @@
 		D53071F529983CEF00F1936C /* Showcase */ = {
 			isa = PBXGroup;
 			children = (
+				84B798ED2F9F40DF005D8CF4 /* study */,
 				D530720429983D9300F1936C /* Showcase.entitlements */,
 				D53071F629983CEF00F1936C /* App.swift */,
 				D53071F829983CEF00F1936C /* AppView.swift */,
@@ -105,6 +105,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				84B798ED2F9F40DF005D8CF4 /* study */,
 			);
 			name = Showcase;
 			packageProductDependencies = (

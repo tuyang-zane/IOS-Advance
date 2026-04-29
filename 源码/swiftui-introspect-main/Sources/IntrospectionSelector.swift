@@ -5,13 +5,10 @@ public import UIKit
 public import AppKit
 #endif
 
-@_spi(Advanced)
 @MainActor
 public struct IntrospectionSelector<Target: PlatformEntity> {
-	@_spi(Advanced)
 	public static var `default`: Self { .from(Target.self, selector: { $0 }) }
 
-	@_spi(Advanced)
 	public static func from<Entry: PlatformEntity>(_ entryType: Entry.Type, selector: @MainActor @escaping (Entry) -> Target?) -> Self {
 		.init(
 			receiverSelector: { controller in
@@ -34,14 +31,12 @@ public struct IntrospectionSelector<Target: PlatformEntity> {
 		self.ancestorSelector = ancestorSelector
 	}
 
-	@_spi(Advanced)
 	public func withReceiverSelector(_ selector: @MainActor @escaping (PlatformViewController) -> Target?) -> Self {
 		var copy = self
 		copy.receiverSelector = selector
 		return copy
 	}
 
-	@_spi(Advanced)
 	public func withAncestorSelector(_ selector: @MainActor @escaping (PlatformViewController) -> Target?) -> Self {
 		var copy = self
 		copy.ancestorSelector = selector

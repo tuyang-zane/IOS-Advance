@@ -20,7 +20,6 @@ public struct PlatformViewVersionPredicate<SwiftUIViewType: IntrospectableViewTy
 		Self(versions, matches: \.isCurrent)
 	}
 
-	@_spi(Advanced)
 	public static func iOS(_ versions: PartialRangeFrom<iOSViewVersion<SwiftUIViewType, PlatformSpecificEntity>>) -> Self {
 		Self([versions.lowerBound], matches: \.isCurrentOrPast)
 	}
@@ -29,7 +28,6 @@ public struct PlatformViewVersionPredicate<SwiftUIViewType: IntrospectableViewTy
 		Self(versions, matches: \.isCurrent)
 	}
 
-	@_spi(Advanced)
 	public static func tvOS(_ versions: PartialRangeFrom<tvOSViewVersion<SwiftUIViewType, PlatformSpecificEntity>>) -> Self {
 		Self([versions.lowerBound], matches: \.isCurrentOrPast)
 	}
@@ -38,7 +36,6 @@ public struct PlatformViewVersionPredicate<SwiftUIViewType: IntrospectableViewTy
 		Self(versions, matches: \.isCurrent)
 	}
 
-	@_spi(Advanced)
 	public static func macOS(_ versions: PartialRangeFrom<macOSViewVersion<SwiftUIViewType, PlatformSpecificEntity>>) -> Self {
 		Self([versions.lowerBound], matches: \.isCurrentOrPast)
 	}
@@ -47,7 +44,6 @@ public struct PlatformViewVersionPredicate<SwiftUIViewType: IntrospectableViewTy
 		Self(versions, matches: \.isCurrent)
 	}
 
-	@_spi(Advanced)
 	public static func visionOS(_ versions: PartialRangeFrom<visionOSViewVersion<SwiftUIViewType, PlatformSpecificEntity>>) -> Self {
 		Self([versions.lowerBound], matches: \.isCurrentOrPast)
 	}
@@ -64,14 +60,14 @@ public typealias visionOSViewVersion<SwiftUIViewType: IntrospectableViewType, Pl
 
 @MainActor
 public enum PlatformViewVersion<Version: PlatformVersion, SwiftUIViewType: IntrospectableViewType, PlatformSpecificEntity: PlatformEntity>: Sendable {
-	@_spi(Internals) case available(Version, IntrospectionSelector<PlatformSpecificEntity>?)
-	@_spi(Internals) case unavailable
+	case available(Version, IntrospectionSelector<PlatformSpecificEntity>?)
+	case unavailable
 
-	@_spi(Advanced) public init(for version: Version, selector: IntrospectionSelector<PlatformSpecificEntity>? = nil) {
+	public init(for version: Version, selector: IntrospectionSelector<PlatformSpecificEntity>? = nil) {
 		self = .available(version, selector)
 	}
 
-	@_spi(Advanced) public static func unavailable(file: StaticString = #file, line: UInt = #line) -> Self {
+	public static func unavailable(file: StaticString = #file, line: UInt = #line) -> Self {
 		let filePath = file.withUTF8Buffer { String(decoding: $0, as: UTF8.self) }
 		let fileName = URL(fileURLWithPath: filePath).lastPathComponent
 		print(
