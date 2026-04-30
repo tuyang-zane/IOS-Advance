@@ -37,6 +37,14 @@ class GGSessionDelegate: NSObject, @unchecked Sendable {
         return tasks[url]
     }
     
+    func append(
+        _ task: GGSessionDataTask,
+        callback: GGSessionDataTask.TaskCallback
+    ) -> GGDownloadTask {
+        let token = task.
+        
+    }
+    
     func cancel(url:URL) {
         lock.lock()
         let task = tasks[url]

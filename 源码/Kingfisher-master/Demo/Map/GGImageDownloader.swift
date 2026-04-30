@@ -123,8 +123,8 @@ open class GGImageDownloader:@unchecked Sendable{
         let downloadTask: GGDownloadTask
         
         // 是否已经存在
-        if let extingTask = sessionDelegate. {
-            <#statements#>
+        if let extingTask = sessionDelegate.task(for: context.url) {
+            downloadTask = sessionDelegate
         }
         
         return downloadTask
@@ -178,6 +178,7 @@ extension GGImageDownloader{
     }
 }
  
+// 任务管理器
 public class GGSessionDataTask: @unchecked Sendable {
     let task:URLSessionTask
     let lock = NSLock()
@@ -191,6 +192,16 @@ public class GGSessionDataTask: @unchecked Sendable {
 
     private var callbacksStore = [CancelToken: TaskCallback]()
 
+    private var currentToken = 0
+
+    func addCallback(_ callback: TaskCallback) -> CancelToken {
+        lock.lock()
+        defer { lock.unlock() }
+        callbacksStore[currentToken] = callback
+        defer { currentToken += 1 }
+        return currentToken
+    }
+
     func forceCancel(){
         for token in callbacksStore.keys {
             cancel(token: token)
@@ -201,7 +212,6 @@ public class GGSessionDataTask: @unchecked Sendable {
         guard let callback = removeCallback(token) else {
             return
         }
-        
     }
     
     func removeCallback(_ token: CancelToken) -> TaskCallback? {
