@@ -42,7 +42,11 @@
 		4BE855612320F9DE00FE4205 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE855602320F9DE00FE4205 /* Kingfisher.framework */; };
 		4BE855622320F9DE00FE4205 /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE855602320F9DE00FE4205 /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		769F07F126298E2E00610767 /* GIFHeavyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F07F026298E2E00610767 /* GIFHeavyViewController.swift */; };
-		843CE1B52FA20E1F00680033 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843CE1B42FA20E1F00680033 /* Map.swift */; };
+		84CF10F52FA2F7BB005DA49C /* Marks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF10F32FA2EFB7005DA49C /* Marks.swift */; };
+		84CF298C2FA344AA005DA49C /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843CE1B42FA20E1F00680033 /* Map.swift */; };
+		84CF298D2FA344B4005DA49C /* GGImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF10F12FA2EFA5005DA49C /* GGImageDownloader.swift */; };
+		84CF298F2FA34A21005DA49C /* GGSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF298E2FA34A21005DA49C /* GGSessionDelegate.swift */; };
+		84CF29902FA34A21005DA49C /* GGSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF298E2FA34A21005DA49C /* GGSessionDelegate.swift */; };
 		C959EEE622874DC600467A10 /* ProgressiveJPEGViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C959EEE522874DC600467A10 /* ProgressiveJPEGViewController.swift */; };
 		D10AC99821A300C9005F057C /* ProcessorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10AC99721A300C9005F057C /* ProcessorCollectionViewController.swift */; };
 		D12E0C951C47F91800AC98AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12E0C8C1C47F91800AC98AD /* AppDelegate.swift */; };
@@ -200,6 +204,9 @@
 		4BE855602320F9DE00FE4205 /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		769F07F026298E2E00610767 /* GIFHeavyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFHeavyViewController.swift; sourceTree = "<group>"; };
 		843CE1B42FA20E1F00680033 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		84CF10F12FA2EFA5005DA49C /* GGImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGImageDownloader.swift; sourceTree = "<group>"; };
+		84CF10F32FA2EFB7005DA49C /* Marks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marks.swift; sourceTree = "<group>"; };
+		84CF298E2FA34A21005DA49C /* GGSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGSessionDelegate.swift; sourceTree = "<group>"; };
 		C959EEE522874DC600467A10 /* ProgressiveJPEGViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressiveJPEGViewController.swift; sourceTree = "<group>"; };
 		D10AC99721A300C9005F057C /* ProcessorCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessorCollectionViewController.swift; sourceTree = "<group>"; };
 		D12E0C8C1C47F91800AC98AD /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -355,6 +362,8 @@
 			isa = PBXGroup;
 			children = (
 				843CE1B42FA20E1F00680033 /* Map.swift */,
+				84CF10F12FA2EFA5005DA49C /* GGImageDownloader.swift */,
+				84CF298E2FA34A21005DA49C /* GGSessionDelegate.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -362,6 +371,7 @@
 		843CE1B32FA20B7900680033 /* Marks */ = {
 			isa = PBXGroup;
 			children = (
+				84CF10F32FA2EFB7005DA49C /* Marks.swift */,
 			);
 			path = Marks;
 			sourceTree = "<group>";
@@ -705,10 +715,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84CF298D2FA344B4005DA49C /* GGImageDownloader.swift in Sources */,
 				3887E17B2B4BC04B0062C53C /* SwiftUIViewController.swift in Sources */,
 				4BCCF3421D5B02F8003387C2 /* ViewController.swift in Sources */,
 				3887E1602B4AD7200062C53C /* GIFHeavyViewController.swift in Sources */,
+				84CF10F52FA2F7BB005DA49C /* Marks.swift in Sources */,
+				84CF298C2FA344AA005DA49C /* Map.swift in Sources */,
 				4BCCF33D1D5B02F8003387C2 /* AppDelegate.swift in Sources */,
+				84CF298F2FA34A21005DA49C /* GGSessionDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,10 +759,10 @@
 				D12E0C9B1C47F91800AC98AD /* NormalLoadingViewController.swift in Sources */,
 				D1CE1BD021A1AFA300419000 /* TransitionViewController.swift in Sources */,
 				F344AEF22E1AD74F00BFE702 /* LoadTransitionDemo.swift in Sources */,
+				84CF29902FA34A21005DA49C /* GGSessionDelegate.swift in Sources */,
 				D10AC99821A300C9005F057C /* ProcessorCollectionViewController.swift in Sources */,
 				D1F06F3921AAF1EE000B1C38 /* IndicatorCollectionViewController.swift in Sources */,
 				D1F78A662589F17200930759 /* SingleViewDemo.swift in Sources */,
-				843CE1B52FA20E1F00680033 /* Map.swift in Sources */,
 				F39B68D42E33E0D600404B02 /* NetworkMetricsViewController.swift in Sources */,
 				D12E0C981C47F91800AC98AD /* ImageCollectionViewCell.swift in Sources */,
 				D198F42025EDC34000C53E0D /* SizingAnimationDemo.swift in Sources */,
@@ -1162,6 +1176,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Kingfisher-Demo.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1188,6 +1203,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Kingfisher-Demo.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Manual;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = "";
