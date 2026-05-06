@@ -1,8 +1,8 @@
 //
-//  GGSessionDelegate.swift
+//  GGDelegate.swift
 //  Kingfisher
 //
-//  Created by admin on 2026/4/30.
+//  Created by admin on 2026/5/6.
 //
 //  Copyright (c) 2026 Wei Wang <onevcat@gmail.com>
 //
@@ -26,34 +26,24 @@
 
 import Cocoa
 
-class GGSessionDelegate: NSObject, @unchecked Sendable {
+public class GGDelegate<Input, Output>: @unchecked Sendable {
+    public init() {}
+    private let propertyQueue = DispatchQueue(label: "com.GGImage.GGDelegate.DelegateQueue")
+    private var _block: ((Input) -> Output?)?
+    private var block: ((Input) -> Output?)? {
+        get { propertyQueue.sync { _block } }
+        set { propertyQueue.sync { _block = newValue } }
+    }
 
-    private var tasks: [URL: GGSessionDataTask] = [:]
-    private let lock = NSLock()
-    
-    func task(for url:URL) -> GGSessionDataTask? {
-        lock.lock()
-        defer{lock.unlock()}
-        return tasks[url]
+    public func delegate<T:AnyObject>(on target:T,  block: ((T, Input) -> Output)?) {
+        self.block = { [weak target] input in
+            guard let target = target else { return nil }
+            return block?(target, input)
+        }
     }
     
-    func append(
-        _ task: GGSessionDataTask,
-        callback: GGSessionDataTask.TaskCallback
-    ) -> GGDownloadTask {
-        let token = task.
-        
+    public func call(_ input: Input) -> Output? {
+        return block?(input)
     }
-    
-    func cancel(url:URL) {
-        lock.lock()
-        let task = tasks[url]
-        lock.unlock()
-        task?.forceCancel()
-    }
-    
-}
 
-extension GGSessionDelegate:URLSessionDelegate{
-    
 }
