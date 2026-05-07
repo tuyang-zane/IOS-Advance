@@ -31,6 +31,22 @@ class ViewController: NSViewController {
     
     @IBOutlet weak var collectionView: NSCollectionView!
     
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        GGImageDownloader.default.downloadImage(with: URL(string: "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-1.jpg")!) { result in
+            
+                print("【调试】回调被触发了！结果是：\(result)") // <<< 加这行，看有没有进回调
+
+                if case .success(let data) = result{
+                    print("downloadImage==========  \(data.originalData) \(data.image)")
+                }
+                if case .failure(let error) = result{
+                    print("failurefailure========== \(error)")
+                }
+            }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

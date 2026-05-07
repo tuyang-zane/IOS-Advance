@@ -33,6 +33,7 @@ private let sharedProcessingQueue: CallbackQueue =
 final class GGImageDataProcessor: Sendable {
     let data: Data
     let callbacks: [GGSessionDataTask.TaskCallback]
+    
     let queue: CallbackQueue
     
     //注意：我们有一个优化选择，通过检查回调来减少队列调度
@@ -54,16 +55,16 @@ final class GGImageDataProcessor: Sendable {
     private func doProcess() {
         var processedImages = [String: NSImage]()
         for callback in callbacks {
-            let processor = callback.options.processor
+            let processor = GGDefaultImageProcessor.default
             var image = processedImages[processor.identifier]
             if image == nil {
-                image = processor.process(item: .data(data), options: callback.options)
+                image = processor.process(item: .data(data))
                 processedImages[processor.identifier] = image
             }
 
             let result: Result<NSImage, GGImageError>
             if let image = image {
-                let finalImage = callback.options.backgroundDecode ? image.kf.decoded : image
+                let finalImage = image
                 result = .success(finalImage)
             } else {
                 let error = GGImageError.processorError(reason: "123123")

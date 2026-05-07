@@ -35,15 +35,32 @@ public class GGDelegate<Input, Output>: @unchecked Sendable {
         set { propertyQueue.sync { _block = newValue } }
     }
 
-    public func delegate<T:AnyObject>(on target:T,  block: ((T, Input) -> Output)?) {
+    private var _asyncBlock: ((Input) async -> Output?)?
+    private var asyncBlock: ((Input) async -> Output?)? {
+        get { propertyQueue.sync { _asyncBlock } }
+        set { propertyQueue.sync { _asyncBlock = newValue } }
+    }
+
+    public func delegate<T: AnyObject>(on target: T, block: ((T, Input) -> Output)?) {
         self.block = { [weak target] input in
             guard let target = target else { return nil }
             return block?(target, input)
         }
     }
     
+    public func delegate<T: AnyObject>(on target: T, block: ((T, Input) async -> Output)?) {
+        self.asyncBlock = { [weak target] input in
+            guard let target = target else { return nil }
+            return await block?(target, input)
+        }
+    }
+
     public func call(_ input: Input) -> Output? {
         return block?(input)
+    }
+
+    public func callAsync(_ input: Input) async -> Output? {
+        return await asyncBlock?(input)
     }
 
 }
