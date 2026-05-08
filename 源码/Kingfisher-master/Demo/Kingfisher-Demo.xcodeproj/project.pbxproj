@@ -42,6 +42,14 @@
 		4BE855612320F9DE00FE4205 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE855602320F9DE00FE4205 /* Kingfisher.framework */; };
 		4BE855622320F9DE00FE4205 /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE855602320F9DE00FE4205 /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		769F07F126298E2E00610767 /* GIFHeavyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F07F026298E2E00610767 /* GIFHeavyViewController.swift */; };
+		84B69CC82FAD787F00F7F354 /* GGImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B69CC72FAD787F00F7F354 /* GGImageCache.swift */; };
+		84B69CC92FAD787F00F7F354 /* GGImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B69CC72FAD787F00F7F354 /* GGImageCache.swift */; };
+		84B69CCB2FAD847100F7F354 /* GGMemoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B69CCA2FAD847100F7F354 /* GGMemoryCache.swift */; };
+		84B69CCC2FAD847100F7F354 /* GGMemoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B69CCA2FAD847100F7F354 /* GGMemoryCache.swift */; };
+		84B6A50B2FADB91300F7F354 /* GGDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B6A50A2FADB91300F7F354 /* GGDiskCache.swift */; };
+		84B6A50C2FADB91300F7F354 /* GGDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B6A50A2FADB91300F7F354 /* GGDiskCache.swift */; };
+		84B6AD642FADEACB00F7F354 /* GGImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B6AD632FADEACB00F7F354 /* GGImageManager.swift */; };
+		84B6AD652FADEACB00F7F354 /* GGImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B6AD632FADEACB00F7F354 /* GGImageManager.swift */; };
 		84BA0DB52FAAE7CA00DC8624 /* GGDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA0DB42FAAE7CA00DC8624 /* GGDelegate.swift */; };
 		84BA0DB62FAAE7CA00DC8624 /* GGDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA0DB42FAAE7CA00DC8624 /* GGDelegate.swift */; };
 		84BA1E652FAB3A3900DC8624 /* GGImageDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA1E642FAB3A3900DC8624 /* GGImageDataProcessor.swift */; };
@@ -210,6 +218,10 @@
 		4BE855602320F9DE00FE4205 /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		769F07F026298E2E00610767 /* GIFHeavyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFHeavyViewController.swift; sourceTree = "<group>"; };
 		843CE1B42FA20E1F00680033 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		84B69CC72FAD787F00F7F354 /* GGImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGImageCache.swift; sourceTree = "<group>"; };
+		84B69CCA2FAD847100F7F354 /* GGMemoryCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGMemoryCache.swift; sourceTree = "<group>"; };
+		84B6A50A2FADB91300F7F354 /* GGDiskCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGDiskCache.swift; sourceTree = "<group>"; };
+		84B6AD632FADEACB00F7F354 /* GGImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGImageManager.swift; sourceTree = "<group>"; };
 		84BA0DB42FAAE7CA00DC8624 /* GGDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGDelegate.swift; sourceTree = "<group>"; };
 		84BA1E642FAB3A3900DC8624 /* GGImageDataProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGImageDataProcessor.swift; sourceTree = "<group>"; };
 		84C22F8E2FAC3F1400184022 /* GGImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGImageProcessor.swift; sourceTree = "<group>"; };
@@ -370,6 +382,7 @@
 		843CE1B22FA20B6D00680033 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				84B6AD622FADEAB700F7F354 /* Interface */,
 				84C22F912FAC9A6C00184022 /* Cache */,
 				84BA1E632FAB1F2200DC8624 /* Down */,
 				843CE1B42FA20E1F00680033 /* Map.swift */,
@@ -383,6 +396,14 @@
 				84CF10F32FA2EFB7005DA49C /* Marks.swift */,
 			);
 			path = Marks;
+			sourceTree = "<group>";
+		};
+		84B6AD622FADEAB700F7F354 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				84B6AD632FADEACB00F7F354 /* GGImageManager.swift */,
+			);
+			path = Interface;
 			sourceTree = "<group>";
 		};
 		84BA1E632FAB1F2200DC8624 /* Down */ = {
@@ -400,6 +421,9 @@
 		84C22F912FAC9A6C00184022 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
+				84B69CC72FAD787F00F7F354 /* GGImageCache.swift */,
+				84B69CCA2FAD847100F7F354 /* GGMemoryCache.swift */,
+				84B6A50A2FADB91300F7F354 /* GGDiskCache.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -746,13 +770,17 @@
 				84CF298D2FA344B4005DA49C /* GGImageDownloader.swift in Sources */,
 				3887E17B2B4BC04B0062C53C /* SwiftUIViewController.swift in Sources */,
 				84BA1E652FAB3A3900DC8624 /* GGImageDataProcessor.swift in Sources */,
+				84B6A50B2FADB91300F7F354 /* GGDiskCache.swift in Sources */,
 				4BCCF3421D5B02F8003387C2 /* ViewController.swift in Sources */,
 				3887E1602B4AD7200062C53C /* GIFHeavyViewController.swift in Sources */,
 				84BA0DB52FAAE7CA00DC8624 /* GGDelegate.swift in Sources */,
+				84B69CCB2FAD847100F7F354 /* GGMemoryCache.swift in Sources */,
 				84CF10F52FA2F7BB005DA49C /* Marks.swift in Sources */,
+				84B6AD642FADEACB00F7F354 /* GGImageManager.swift in Sources */,
 				84CF298C2FA344AA005DA49C /* Map.swift in Sources */,
 				4BCCF33D1D5B02F8003387C2 /* AppDelegate.swift in Sources */,
 				84C22F902FAC3F1400184022 /* GGImageProcessor.swift in Sources */,
+				84B69CC82FAD787F00F7F354 /* GGImageCache.swift in Sources */,
 				84CF298F2FA34A21005DA49C /* GGSessionDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -801,19 +829,23 @@
 				D198F42025EDC34000C53E0D /* SizingAnimationDemo.swift in Sources */,
 				072922432638639D0089E810 /* AnimatedImageDemo.swift in Sources */,
 				84BA1E662FAB3A3900DC8624 /* GGImageDataProcessor.swift in Sources */,
+				84B69CC92FAD787F00F7F354 /* GGImageCache.swift in Sources */,
 				4B6E1B6D28DB4E8C0023B54B /* Issue1998View.swift in Sources */,
 				D1A1CCA721A18A3200263AD8 /* UIViewController+KingfisherOperation.swift in Sources */,
 				D14799D92E1129A900053537 /* LoadingFailureDemo.swift in Sources */,
 				D1E612E22D75F9AC00DACD51 /* ProgressiveJPEGDemo.swift in Sources */,
 				4B92FE5625FF906B00473088 /* AutoSizingTableViewController.swift in Sources */,
 				D1F78A642589F17200930759 /* ListDemo.swift in Sources */,
+				84B6A50C2FADB91300F7F354 /* GGDiskCache.swift in Sources */,
 				D198F41E25EDC11500C53E0D /* LazyVStackDemo.swift in Sources */,
 				D1E4CF5421BACBA6004D029D /* ImageDataProviderCollectionViewController.swift in Sources */,
 				4B9AD88F26480D3B0086A261 /* OrientationImagesViewController.swift in Sources */,
+				84B6AD652FADEACB00F7F354 /* GGImageManager.swift in Sources */,
 				D1FAB06F21A853E600908910 /* HighResolutionCollectionViewController.swift in Sources */,
 				D1F78A652589F17200930759 /* MainView.swift in Sources */,
 				4B779C8526743C2800FF9C1E /* GeometryReaderDemo.swift in Sources */,
 				D1F78A5F2589F0AA00930759 /* SwiftUIViewController.swift in Sources */,
+				84B69CCC2FAD847100F7F354 /* GGMemoryCache.swift in Sources */,
 				0784D0992F17E41700EB2A07 /* PhotosPickerDemo.swift in Sources */,
 				D12E0C951C47F91800AC98AD /* AppDelegate.swift in Sources */,
 				D1F06F3321AA4292000B1C38 /* DetailImageViewController.swift in Sources */,
