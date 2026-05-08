@@ -42,8 +42,18 @@ class GGImageManager: @unchecked Sendable {
         completionHandler: (@MainActor @Sendable (Result<NSImage, GGImageError>) -> Void)? = nil)
     {
         // 缓存命中
+        if retrieveImageFromCache(url, completionHandler: completionHandler) == true{
+            
+        }else{
+            // 下载并保存
+            
+        }
+    }
+    
+    func retrieveImageFromCache(
+        _ url: URL?,
+        completionHandler: (@Sendable (Result<NSImage, GGImageError>) -> Void)?) -> Bool
+    {
         
-        
-        // 下载并保存
     }
 }
