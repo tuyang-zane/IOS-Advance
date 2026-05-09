@@ -31,31 +31,6 @@ class ViewController: NSViewController {
     
     @IBOutlet weak var collectionView: NSCollectionView!
     
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        
-        let cache = GGImageCache(name: "test")
-        
-        let url = URL(string: "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-1.jpg")!
-        
-        GGImageDownloader.default.downloadImage(with:url) { result in
-            
-                print("【调试】回调被触发了！结果是：\(result)") // <<< 加这行，看有没有进回调
-
-                if case .success(let data) = result{
-                    
-                    cache.store(data.image, original: data.originalData, forKey: url.absoluteString) { result in
-                        print("图片保存成功=====：\(result)")
-                    }
-                    
-                    print("downloadImage==========  \(data.originalData) \(data.image)")
-                }
-                if case .failure(let error) = result{
-                    print("failurefailure========== \(error)")
-                }
-            }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -81,16 +56,7 @@ extension ViewController: NSCollectionViewDataSource {
         let item = collectionView.makeItem(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "Cell"), for: indexPath)
         
         let url = URL(string: "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-\(indexPath.item + 1).jpg")!
-        
-        item.imageView?.kf.indicatorType = .activity
-        KF.url(url)
-            .roundCorner(radius: .point(20))
-            .onProgress { receivedSize, totalSize in print("\(indexPath.item + 1): \(receivedSize)/\(totalSize)") }
-            .onSuccess { print($0) }
-            .set(to: item.imageView!)
-        
-        // Set imageView's `animates` to true if you are loading a GIF.
-        // item.imageView?.animates = true
+        item.imageView?.gg.setImage(url: url)
         return item
     }
 }

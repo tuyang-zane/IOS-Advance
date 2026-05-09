@@ -56,6 +56,8 @@
 		84BA1E662FAB3A3900DC8624 /* GGImageDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA1E642FAB3A3900DC8624 /* GGImageDataProcessor.swift */; };
 		84C22F8F2FAC3F1400184022 /* GGImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C22F8E2FAC3F1400184022 /* GGImageProcessor.swift */; };
 		84C22F902FAC3F1400184022 /* GGImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C22F8E2FAC3F1400184022 /* GGImageProcessor.swift */; };
+		84C5DD0E2FAEDAAF00231BFB /* GG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5DD0D2FAEDAAF00231BFB /* GG.swift */; };
+		84C5DD0F2FAEDAAF00231BFB /* GG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5DD0D2FAEDAAF00231BFB /* GG.swift */; };
 		84CF10F52FA2F7BB005DA49C /* Marks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF10F32FA2EFB7005DA49C /* Marks.swift */; };
 		84CF298C2FA344AA005DA49C /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843CE1B42FA20E1F00680033 /* Map.swift */; };
 		84CF298D2FA344B4005DA49C /* GGImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CF10F12FA2EFA5005DA49C /* GGImageDownloader.swift */; };
@@ -225,6 +227,7 @@
 		84BA0DB42FAAE7CA00DC8624 /* GGDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGDelegate.swift; sourceTree = "<group>"; };
 		84BA1E642FAB3A3900DC8624 /* GGImageDataProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGImageDataProcessor.swift; sourceTree = "<group>"; };
 		84C22F8E2FAC3F1400184022 /* GGImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGImageProcessor.swift; sourceTree = "<group>"; };
+		84C5DD0D2FAEDAAF00231BFB /* GG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GG.swift; sourceTree = "<group>"; };
 		84CF10F12FA2EFA5005DA49C /* GGImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGImageDownloader.swift; sourceTree = "<group>"; };
 		84CF10F32FA2EFB7005DA49C /* Marks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marks.swift; sourceTree = "<group>"; };
 		84CF298E2FA34A21005DA49C /* GGSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGSessionDelegate.swift; sourceTree = "<group>"; };
@@ -402,6 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				84B6AD632FADEACB00F7F354 /* GGImageManager.swift */,
+				84C5DD0D2FAEDAAF00231BFB /* GG.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -778,6 +782,7 @@
 				84CF10F52FA2F7BB005DA49C /* Marks.swift in Sources */,
 				84B6AD642FADEACB00F7F354 /* GGImageManager.swift in Sources */,
 				84CF298C2FA344AA005DA49C /* Map.swift in Sources */,
+				84C5DD0E2FAEDAAF00231BFB /* GG.swift in Sources */,
 				4BCCF33D1D5B02F8003387C2 /* AppDelegate.swift in Sources */,
 				84C22F902FAC3F1400184022 /* GGImageProcessor.swift in Sources */,
 				84B69CC82FAD787F00F7F354 /* GGImageCache.swift in Sources */,
@@ -832,6 +837,7 @@
 				84B69CC92FAD787F00F7F354 /* GGImageCache.swift in Sources */,
 				4B6E1B6D28DB4E8C0023B54B /* Issue1998View.swift in Sources */,
 				D1A1CCA721A18A3200263AD8 /* UIViewController+KingfisherOperation.swift in Sources */,
+				84C5DD0F2FAEDAAF00231BFB /* GG.swift in Sources */,
 				D14799D92E1129A900053537 /* LoadingFailureDemo.swift in Sources */,
 				D1E612E22D75F9AC00DACD51 /* ProgressiveJPEGDemo.swift in Sources */,
 				4B92FE5625FF906B00473088 /* AutoSizingTableViewController.swift in Sources */,

@@ -68,6 +68,27 @@ enum GGDiskStorage{
                 attributes: nil
             )
         }
+        
+        func value(
+            forKey key: String,
+        ) throws -> T?
+        {
+            guard storageReady else {
+                throw GGImageError.processorError(reason: "磁盘文件夹未就绪")
+            }
+            
+            let fileURL = cacheFileURL(forKey: key, forcedExtension: nil)
+            let filePath = fileURL.path
+
+            do {
+                let data = try Data(contentsOf: fileURL)
+                let obj = try T.fromData(data)
+                return obj
+            } catch {
+                throw GGImageError.processorError(reason: "文件获取")
+            }
+
+        }
 
         public func store(
             value: T,
@@ -231,7 +252,7 @@ extension String {
         guard let data = self.data(using: .utf8) else { return self }
         var digest = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
         data.withUnsafeBytes { bytes in
-            _ = CC_SHA256(bytes.baseAddress, UInt32(data.count), &digest)
+            _ = CC_MD5(bytes.baseAddress, CC_LONG(data.count), &digest)
         }
         return digest.map { String(format: "%02x", $0) }.joined()
     }

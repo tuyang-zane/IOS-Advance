@@ -79,7 +79,11 @@ public enum GGMemoryStorage{
                 self.removeExpired()
             }
         }
-
+        
+        func value(for key: String) -> T? {
+            guard let obj = storage.object(forKey: key as NSString) else { return nil }
+            return obj.value
+        }
         
         func storeNoThrow(
             value:T,

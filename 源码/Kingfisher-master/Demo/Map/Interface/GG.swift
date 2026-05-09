@@ -1,8 +1,8 @@
 //
-//  Marks.swift
+//  GGCompatible.swift
 //  Kingfisher
 //
-//  Created by admin on 2026/4/30.
+//  Created by admin on 2026/5/9.
 //
 //  Copyright (c) 2026 Wei Wang <onevcat@gmail.com>
 //
@@ -24,11 +24,34 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import Foundation
+import Cocoa
 
-/*
-  @Sendable：它的使用场景非常特定，核心判断标准就一条：这个闭包是否会被“跨线程”或“跨并发域”传递和执行。
-  协议+扩展
-  泛型
-  清晰的分层
- */
+struct GGWrapper<Base>: @unchecked Sendable {
+    let base:Base
+    init(base: Base) {
+        self.base = base
+    }
+}
+
+extension GGWrapper where Base == NSImageView{
+     func setImage(url:URL) -> Void {
+        GGImageManager.shared.getImage(url) { result in
+            if case .success(let img) = result{
+                self.base.image = img
+            }
+        }
+    }
+}
+
+public protocol GGCompatible { }
+
+extension GGCompatible{
+    var gg: GGWrapper<Self> {
+        get {
+            return GGWrapper(base: self)
+        }
+        set {}
+    }
+}
+
+extension NSImageView:GGCompatible{}
