@@ -23,9 +23,7 @@ class GitHubSignupViewController1: ViewController {
     @IBOutlet var signupOutlet: UIButton!
     @IBOutlet var signingUpOulet: UIActivityIndicatorView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    lazy var viewModel: GithubSignupViewModel1 = {
         let viewModel = GithubSignupViewModel1(
             input: (
                 username: usernameOutlet.rx.text.orEmpty.asObservable(),
@@ -39,7 +37,22 @@ class GitHubSignupViewController1: ViewController {
                 wireframe: DefaultWireframe.shared
             )
         )
+        return viewModel
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
+        let tapBackground = UITapGestureRecognizer()
+        tapBackground.rx.event
+            .subscribe(onNext: { [weak self] _ in
+                self?.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
+        view.addGestureRecognizer(tapBackground)
+    }
+    
+    func bindViewModel() -> Void {
         // bind results to  {
         viewModel.signupEnabled
             .subscribe(onNext: { [weak self] valid in
@@ -70,13 +83,5 @@ class GitHubSignupViewController1: ViewController {
             })
             .disposed(by: disposeBag)
         // }
-
-        let tapBackground = UITapGestureRecognizer()
-        tapBackground.rx.event
-            .subscribe(onNext: { [weak self] _ in
-                self?.view.endEditing(true)
-            })
-            .disposed(by: disposeBag)
-        view.addGestureRecognizer(tapBackground)
     }
 }

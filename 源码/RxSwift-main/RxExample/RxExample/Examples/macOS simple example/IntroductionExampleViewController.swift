@@ -26,7 +26,7 @@ class IntroductionExampleViewController: ViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // c = a + b
         let sum = Observable.combineLatest(a.rx.text.orEmpty, b.rx.text.orEmpty) { (a: String, b: String) -> (a: Int, b: Int) in
             return (Int(a) ?? 0, Int(b) ?? 0)

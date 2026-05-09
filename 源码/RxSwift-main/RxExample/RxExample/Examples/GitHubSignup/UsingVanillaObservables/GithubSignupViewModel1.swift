@@ -63,6 +63,7 @@ class GithubSignupViewModel1 {
           Pure transformation of input sequences to output sequences.
          */
 
+        // flatMapLatest = 自动取消上一次请求，只执行最新的一次！
         validatedUsername = input.username
             .flatMapLatest { username in
                 validationService.validateUsername(username)
