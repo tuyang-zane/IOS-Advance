@@ -1,0 +1,21 @@
+//
+//  NSSlider+RxTests.swift
+//  Tests
+//
+//  Created by Krunoslav Zaher on 11/26/16.
+//  Copyright © 2016 Krunoslav Zaher. All rights reserved.
+//
+
+import AppKit
+import RxCocoa
+import RxSwift
+import XCTest
+
+final class NSSliderTests: RxTest {}
+
+extension NSSliderTests {
+    func testSlider_ValueCompletesOnDealloc() {
+        let createView: () -> NSSlider = { NSSlider(frame: CGRect(x: 0, y: 0, width: 1, height: 1)) }
+        ensurePropertyDeallocated(createView, 0.3) { (view: NSSlider) in view.rx.value }
+    }
+}

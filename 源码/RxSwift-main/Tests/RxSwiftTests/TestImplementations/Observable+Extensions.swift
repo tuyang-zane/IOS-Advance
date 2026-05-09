@@ -1,0 +1,20 @@
+//
+//  Observable+Extensions.swift
+//  Tests
+//
+//  Created by Krunoslav Zaher on 6/4/15.
+//  Copyright © 2015 Krunoslav Zaher. All rights reserved.
+//
+
+import RxSwift
+import RxTest
+
+public func == <T>(lhs: Observable<T>, rhs: Observable<T>) -> Bool {
+    lhs === rhs
+}
+
+extension TestableObservable: @retroactive Equatable {}
+
+public func == <T>(lhs: TestableObservable<T>, rhs: TestableObservable<T>) -> Bool {
+    lhs === rhs
+}
