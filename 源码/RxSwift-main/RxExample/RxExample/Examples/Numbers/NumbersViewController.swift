@@ -33,13 +33,12 @@ class NumbersViewController: ViewController {
 //                print(event)
 //            }
 
-        var observer:GGAnyObserver<Int>!
-        let a = GGObservable.create { o in
-            observer = o
+        let a = GGObservable.create { observer in
+            observer.on(.next(0))
+            observer.on(.completed)
             return GGNoDisposable()
         }
         
-        // 2. 订阅：这里创建 消费者
         a.subscribe { e in
             print("发送数据流======   \(e)")
         } onError: { e in
@@ -49,15 +48,7 @@ class NumbersViewController: ViewController {
         } onDisposed: {
             print("发送数据销毁")
         }
-        
-        // 给生产者发事件
-        observer.on(.next(0))
-        
-        observer.on(.next(1))
 
-        observer.on(.completed)
-
-        observer.on(.next(2))
 
     }
     
