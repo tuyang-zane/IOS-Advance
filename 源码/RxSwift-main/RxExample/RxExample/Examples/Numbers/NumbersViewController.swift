@@ -33,22 +33,17 @@ class NumbersViewController: ViewController {
 //                print(event)
 //            }
 
-        let a = GGObservable.create { observer in
-            observer.on(.next(0))
-            observer.on(.completed)
-            return GGNoDisposable()
-        }
         
-        a.subscribe { e in
-            print("发送数据流======   \(e)")
-        } onError: { e in
-            print("发送数据error======   \(e)")
-        } onCompleted: {
-            print("发送数据完成")
-        } onDisposed: {
-            print("发送数据销毁")
-        }
+        let observable = GGObservable.just(1)
+        
+//        let a = GGObservable.create { observer in
+//            observer.on(.next(0))
+//            observer.on(.completed)
+//            return GGNoDisposable()
+//        }
+//
 
+        GGObservableProblemTests.testProblem1_IncompleteEventForwarding()
 
     }
     

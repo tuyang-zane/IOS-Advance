@@ -29,6 +29,15 @@
 		84B39E1C2FB1DA6F0068D74F /* ObserverBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B39E1B2FB1DA6F0068D74F /* ObserverBase.swift */; };
 		84B39E1E2FB1DBC90068D74F /* Disposables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B39E1D2FB1DBC90068D74F /* Disposables.swift */; };
 		84B39E202FB1E2070068D74F /* Study1.md in Resources */ = {isa = PBXBuildFile; fileRef = 84B39E1F2FB1E2070068D74F /* Study1.md */; };
+		84B85C552FB4265A00D316F5 /* ProblemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B85C512FB4265A00D316F5 /* ProblemTests.swift */; };
+		84B85C562FB4265A00D316F5 /* ProblemsExposed.md in Resources */ = {isa = PBXBuildFile; fileRef = 84B85C502FB4265A00D316F5 /* ProblemsExposed.md */; };
+		84B85C572FB4265A00D316F5 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 84B85C522FB4265A00D316F5 /* README.md */; };
+		84B85C582FB4265A00D316F5 /* START_HERE.md in Resources */ = {isa = PBXBuildFile; fileRef = 84B85C532FB4265A00D316F5 /* START_HERE.md */; };
+		84B85C5B2FB44D1C00D316F5 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B85C5A2FB44D1C00D316F5 /* Scheduler.swift */; };
+		84B85C5D2FB4579100D316F5 /* Thread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B85C5C2FB4579100D316F5 /* Thread.swift */; };
+		84B85C5F2FB4591600D316F5 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B85C5E2FB4591600D316F5 /* Queue.swift */; };
+		84B85C612FB45CF100D316F5 /* SingleAssignmentDisposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B85C602FB45CF100D316F5 /* SingleAssignmentDisposable.swift */; };
+		84C1790E2FB36A7D00AD0CB1 /* Opreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1790D2FB36A7D00AD0CB1 /* Opreate.swift */; };
 		927A78B82117A5E700A45638 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BCD3DE1C1480E9005F1280 /* Operators.swift */; };
 		A34040282C47AC34009E3F74 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34040202C47AC2F009E3F74 /* BaseNavigationController.swift */; };
 		A5CD038F1F1670E50005A376 /* CustomPickerViewAdapterExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CD038E1F1670E50005A376 /* CustomPickerViewAdapterExampleViewController.swift */; };
@@ -329,6 +338,15 @@
 		84B39E1B2FB1DA6F0068D74F /* ObserverBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverBase.swift; sourceTree = "<group>"; };
 		84B39E1D2FB1DBC90068D74F /* Disposables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disposables.swift; sourceTree = "<group>"; };
 		84B39E1F2FB1E2070068D74F /* Study1.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Study1.md; sourceTree = "<group>"; };
+		84B85C502FB4265A00D316F5 /* ProblemsExposed.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ProblemsExposed.md; sourceTree = "<group>"; };
+		84B85C512FB4265A00D316F5 /* ProblemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemTests.swift; sourceTree = "<group>"; };
+		84B85C522FB4265A00D316F5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		84B85C532FB4265A00D316F5 /* START_HERE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = START_HERE.md; sourceTree = "<group>"; };
+		84B85C5A2FB44D1C00D316F5 /* Scheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
+		84B85C5C2FB4579100D316F5 /* Thread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thread.swift; sourceTree = "<group>"; };
+		84B85C5E2FB4591600D316F5 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		84B85C602FB45CF100D316F5 /* SingleAssignmentDisposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAssignmentDisposable.swift; sourceTree = "<group>"; };
+		84C1790D2FB36A7D00AD0CB1 /* Opreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opreate.swift; sourceTree = "<group>"; };
 		A34040202C47AC2F009E3F74 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		A5CD038E1F1670E50005A376 /* CustomPickerViewAdapterExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPickerViewAdapterExampleViewController.swift; sourceTree = "<group>"; };
 		AE51C1C81DE735D8005BAF5F /* APIWrappers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = APIWrappers.storyboard; sourceTree = "<group>"; };
@@ -569,6 +587,7 @@
 		84B39DF92FB1794D0068D74F /* GGSwift */ = {
 			isa = PBXGroup;
 			children = (
+				84B85C592FB44D0800D316F5 /* Scheduler */,
 				84B39E142FB1CB2B0068D74F /* Observers */,
 				84B39E0D2FB1AD6D0068D74F /* Observables */,
 				84B39E012FB17A9D0068D74F /* Observable.swift */,
@@ -578,6 +597,7 @@
 				84B39E092FB1A6130068D74F /* AnyObserver.swift */,
 				84B39E1D2FB1DBC90068D74F /* Disposables.swift */,
 				84B39E1F2FB1E2070068D74F /* Study1.md */,
+				84B85C542FB4265A00D316F5 /* Tests */,
 			);
 			path = GGSwift;
 			sourceTree = "<group>";
@@ -588,6 +608,7 @@
 				84B39E0E2FB1AD810068D74F /* Producer.swift */,
 				84B39E102FB1AE390068D74F /* Create.swift */,
 				84B39E122FB1B5530068D74F /* Sink.swift */,
+				84C1790D2FB36A7D00AD0CB1 /* Opreate.swift */,
 			);
 			path = Observables;
 			sourceTree = "<group>";
@@ -599,6 +620,28 @@
 				84B39E1B2FB1DA6F0068D74F /* ObserverBase.swift */,
 			);
 			path = Observers;
+			sourceTree = "<group>";
+		};
+		84B85C542FB4265A00D316F5 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				84B85C502FB4265A00D316F5 /* ProblemsExposed.md */,
+				84B85C512FB4265A00D316F5 /* ProblemTests.swift */,
+				84B85C522FB4265A00D316F5 /* README.md */,
+				84B85C532FB4265A00D316F5 /* START_HERE.md */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		84B85C592FB44D0800D316F5 /* Scheduler */ = {
+			isa = PBXGroup;
+			children = (
+				84B85C5A2FB44D1C00D316F5 /* Scheduler.swift */,
+				84B85C5C2FB4579100D316F5 /* Thread.swift */,
+				84B85C5E2FB4591600D316F5 /* Queue.swift */,
+				84B85C602FB45CF100D316F5 /* SingleAssignmentDisposable.swift */,
+			);
+			path = Scheduler;
 			sourceTree = "<group>";
 		};
 		C81B39F21BC1C28400EF5A9F /* Products */ = {
@@ -1264,6 +1307,9 @@
 				AE51C1D71DE73623005BAF5F /* Numbers.storyboard in Resources */,
 				84B39E202FB1E2070068D74F /* Study1.md in Resources */,
 				AE51C1CF1DE735FD005BAF5F /* GitHubSearchRepositories.storyboard in Resources */,
+				84B85C562FB4265A00D316F5 /* ProblemsExposed.md in Resources */,
+				84B85C572FB4265A00D316F5 /* README.md in Resources */,
+				84B85C582FB4265A00D316F5 /* START_HERE.md in Resources */,
 				AE51C1DB1DE7363C005BAF5F /* SimpleTableViewExampleSectioned.storyboard in Resources */,
 				AE51C1D51DE73613005BAF5F /* ImagePicker.storyboard in Resources */,
 				AE51C1CD1DE735EF005BAF5F /* Geolocation.storyboard in Resources */,
@@ -1340,6 +1386,7 @@
 				C82FF1231F93E84600BDB34D /* Utilities.swift in Sources */,
 				84B39E022FB17A9D0068D74F /* Observable.swift in Sources */,
 				C84E5BA61E7893A4001F659A /* Observable+Extensions.swift in Sources */,
+				84B85C5F2FB4591600D316F5 /* Queue.swift in Sources */,
 				C886A68E1D85AD2000653EE4 /* CLLocationManager+Rx.swift in Sources */,
 				C82FF12E1F93E84600BDB34D /* AnimatableSectionModelType.swift in Sources */,
 				C8C46DA81B47F7110020D71E /* CollectionViewImageCell.swift in Sources */,
@@ -1360,6 +1407,7 @@
 				C8BCD3DF1C1480E9005F1280 /* Operators.swift in Sources */,
 				C843A0901C1CE39900CBA4BD /* GitHubSearchRepositoriesViewController.swift in Sources */,
 				C803973A1BD3E17D009D8B26 /* ActivityIndicator.swift in Sources */,
+				84B85C612FB45CF100D316F5 /* SingleAssignmentDisposable.swift in Sources */,
 				C82FF1241F93E84600BDB34D /* IdentifiableType.swift in Sources */,
 				C82FF13E1F93E84600BDB34D /* RxTableViewSectionedReloadDataSource.swift in Sources */,
 				C8CDF0C11D688DF700C18F99 /* UITableView+Extensions.swift in Sources */,
@@ -1376,6 +1424,7 @@
 				C82FF12B1F93E84600BDB34D /* AnimatableSectionModelType+ItemPath.swift in Sources */,
 				C82FF12A1F93E84600BDB34D /* Optional+Extensions.swift in Sources */,
 				C822B1E71C14E7250088A01A /* SimpleTableViewExampleSectionedViewController.swift in Sources */,
+				84B85C5B2FB44D1C00D316F5 /* Scheduler.swift in Sources */,
 				C83367251AD029AE00C668A7 /* ImageService.swift in Sources */,
 				C819DAE91ED0DDD50043A770 /* Version.swift in Sources */,
 				C82FF13C1F93E84600BDB34D /* RxCollectionViewSectionedAnimatedDataSource.swift in Sources */,
@@ -1398,6 +1447,7 @@
 				C864BAE11C3332F10083833C /* User.swift in Sources */,
 				0744CDED1C4DB78600720FD2 /* GeolocationViewController.swift in Sources */,
 				C83367231AD029AE00C668A7 /* Example.swift in Sources */,
+				84B85C552FB4265A00D316F5 /* ProblemTests.swift in Sources */,
 				84B39E132FB1B5530068D74F /* Sink.swift in Sources */,
 				C890A65D1AEC084100AFF7E6 /* ViewController.swift in Sources */,
 				C8C46DAA1B47F7110020D71E /* WikipediaSearchCell.swift in Sources */,
@@ -1405,6 +1455,7 @@
 				84B39E042FB181DF0068D74F /* Observer.swift in Sources */,
 				B1604CB51BE49F8D002E1279 /* DownloadableImage.swift in Sources */,
 				075F13101B4E9D5A000D7861 /* APIWrappersViewController.swift in Sources */,
+				84C1790E2FB36A7D00AD0CB1 /* Opreate.swift in Sources */,
 				C8D3DDE21FB5DB6900BFE7D4 /* Feedbacks.swift in Sources */,
 				C82FF1251F93E84600BDB34D /* SectionModel.swift in Sources */,
 				B18F3BE21BDB2E8F000AAC79 /* ReachabilityService.swift in Sources */,
@@ -1419,6 +1470,7 @@
 				C86E2F461AE5A0CA00C31024 /* WikipediaPage.swift in Sources */,
 				C82FF13D1F93E84600BDB34D /* TableViewSectionedDataSource.swift in Sources */,
 				84B39E0A2FB1A6130068D74F /* AnyObserver.swift in Sources */,
+				84B85C5D2FB4579100D316F5 /* Thread.swift in Sources */,
 				C82FF1351F93E84600BDB34D /* String+IdentifiableType.swift in Sources */,
 				C809E97D1BE697100058D948 /* UIImage+Extensions.swift in Sources */,
 				C8A2A2CB1B404A1200F11F09 /* Randomizer.swift in Sources */,

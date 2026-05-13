@@ -6,13 +6,21 @@
 //  Copyright © 2026 Krunoslav Zaher. All rights reserved.
 //
 
-// 生产者
+// 生产者 - 核心职责：
+// 1. 检查 CurrentThreadScheduler 上下文，防止死锁
+// 2. 管理 Sink 和 Subscription 的生命周期
+// 3. 通过 SinkDisposer 确保资源正确释放
+
 class GGProducer<Element>: GGObservable<Element> {
     override init() {
         super.init()
     }
     
     override func subscribe<Observer: GGObserverType>(_ observer: Observer) -> GGDisposable where Observer.Element == Element {
+        return self.executeSubscription(observer)
+    }
+    
+    private func executeSubscription<Observer: GGObserverType>(_ observer: Observer) -> GGDisposable where Observer.Element == Element {
         // 创建一个 SinkDisposer 用于管理 sink 和 subscription 的生命周期
         let disposer = GGSinkDisposer()
         let sinkAndSubscription = self.run(observer, cancel: disposer)

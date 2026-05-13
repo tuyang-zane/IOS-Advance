@@ -63,11 +63,6 @@ extension GGObservableType {
 
 
 
-
-
-
-
-
 /*
  解耦设计
  这是一个更高层、更宽泛的协议。它的意思是：“我不关心你内部是怎么实现的，也不要求你必须继承自 Observable，只要你最后能变成一个 Observable 给我用就行。”
@@ -82,7 +77,7 @@ protocol GGObservableConvertibleType {
 extension GGObservable{
     // 从指定订阅方法实现创建可观察序列。
     static func create(_ subscribe: @escaping (GGAnyObserver<Element>) -> GGDisposable) -> GGObservable<Element> {
-        GGAnonymousObservable(subscribeHandler: subscribe)
+        SimpleAnonymousObservable(subscribeHandler: subscribe)
     }
     
 }
