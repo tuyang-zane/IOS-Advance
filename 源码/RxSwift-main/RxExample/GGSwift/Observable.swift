@@ -77,7 +77,7 @@ protocol GGObservableConvertibleType {
 extension GGObservable{
     // 从指定订阅方法实现创建可观察序列。
     static func create(_ subscribe: @escaping (GGAnyObserver<Element>) -> GGDisposable) -> GGObservable<Element> {
-        SimpleAnonymousObservable(subscribeHandler: subscribe)
+        GGAnonymousObservable(subscribeHandler: subscribe)
     }
     
 }

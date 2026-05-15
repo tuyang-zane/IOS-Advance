@@ -32,17 +32,15 @@ class NumbersViewController: ViewController {
 //            .subscribe { event in
 //                print(event)
 //            }
-
         
         let observable = GGObservable.just(1)
         
-//        let a = GGObservable.create { observer in
-//            observer.on(.next(0))
-//            observer.on(.completed)
-//            return GGNoDisposable()
-//        }
+        let a = GGObservable.create { observer in
+            observer.on(.next(0))
+            observer.on(.completed)
+            return GGNoDisposable()
+        }
 //
-
         GGObservableProblemTests.testProblem1_IncompleteEventForwarding()
 
     }

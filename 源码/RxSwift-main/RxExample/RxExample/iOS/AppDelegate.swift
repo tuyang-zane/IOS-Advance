@@ -38,18 +38,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func testCurrentThreadSchedulerDeadlock() {
-        let observable = GGObservable<Int>.create { observer in
-            observer.on(.next(1))
-            observer.on(.completed)
-            observer.on(.next(-1))
-            return GGDisposables.create()
-        }
-        
-        observable.subscribe(onNext: { value in
-            print("✅ 收到值: \(value)")
-        }, onCompleted: {
-            print("✅ 完成")
-        })
+        let scheduler = GGSerialDispatchQueueScheduler(queue: DispatchQueue.main)
+        let subscription = Observable<Int>.interval(.milliseconds(300), scheduler: scheduler)
+            .subscribe { event in
+                print(event)
+            }
+        Thread.sleep(forTimeInterval: 2.0)
+        subscription.dispose()
     }
 
     

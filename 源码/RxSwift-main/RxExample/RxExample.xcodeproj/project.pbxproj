@@ -38,6 +38,8 @@
 		84B85C5F2FB4591600D316F5 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B85C5E2FB4591600D316F5 /* Queue.swift */; };
 		84B85C612FB45CF100D316F5 /* SingleAssignmentDisposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B85C602FB45CF100D316F5 /* SingleAssignmentDisposable.swift */; };
 		84C1790E2FB36A7D00AD0CB1 /* Opreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1790D2FB36A7D00AD0CB1 /* Opreate.swift */; };
+		84C21E702FB6FE2100D93853 /* SerialDispatchQueueScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C21E6F2FB6FE2100D93853 /* SerialDispatchQueueScheduler.swift */; };
+		84C21E792FB6FEA000D93853 /* GGSchedulerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C21E782FB6FEA000D93853 /* GGSchedulerType.swift */; };
 		927A78B82117A5E700A45638 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BCD3DE1C1480E9005F1280 /* Operators.swift */; };
 		A34040282C47AC34009E3F74 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34040202C47AC2F009E3F74 /* BaseNavigationController.swift */; };
 		A5CD038F1F1670E50005A376 /* CustomPickerViewAdapterExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CD038E1F1670E50005A376 /* CustomPickerViewAdapterExampleViewController.swift */; };
@@ -347,6 +349,8 @@
 		84B85C5E2FB4591600D316F5 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		84B85C602FB45CF100D316F5 /* SingleAssignmentDisposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAssignmentDisposable.swift; sourceTree = "<group>"; };
 		84C1790D2FB36A7D00AD0CB1 /* Opreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opreate.swift; sourceTree = "<group>"; };
+		84C21E6F2FB6FE2100D93853 /* SerialDispatchQueueScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialDispatchQueueScheduler.swift; sourceTree = "<group>"; };
+		84C21E782FB6FEA000D93853 /* GGSchedulerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGSchedulerType.swift; sourceTree = "<group>"; };
 		A34040202C47AC2F009E3F74 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		A5CD038E1F1670E50005A376 /* CustomPickerViewAdapterExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPickerViewAdapterExampleViewController.swift; sourceTree = "<group>"; };
 		AE51C1C81DE735D8005BAF5F /* APIWrappers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = APIWrappers.storyboard; sourceTree = "<group>"; };
@@ -640,6 +644,8 @@
 				84B85C5C2FB4579100D316F5 /* Thread.swift */,
 				84B85C5E2FB4591600D316F5 /* Queue.swift */,
 				84B85C602FB45CF100D316F5 /* SingleAssignmentDisposable.swift */,
+				84C21E6F2FB6FE2100D93853 /* SerialDispatchQueueScheduler.swift */,
+				84C21E782FB6FEA000D93853 /* GGSchedulerType.swift */,
 			);
 			path = Scheduler;
 			sourceTree = "<group>";
@@ -1382,6 +1388,7 @@
 				C82FF12F1F93E84600BDB34D /* Array+Extensions.swift in Sources */,
 				84B39E0F2FB1AD810068D74F /* Producer.swift in Sources */,
 				2864D5F21D995FCD004F8484 /* Application+Extensions.swift in Sources */,
+				84C21E792FB6FEA000D93853 /* GGSchedulerType.swift in Sources */,
 				C819DAFA1ED0DE920043A770 /* Lenses.swift in Sources */,
 				C82FF1231F93E84600BDB34D /* Utilities.swift in Sources */,
 				84B39E022FB17A9D0068D74F /* Observable.swift in Sources */,
@@ -1461,6 +1468,7 @@
 				B18F3BE21BDB2E8F000AAC79 /* ReachabilityService.swift in Sources */,
 				B18F3BBC1BD92EC8000AAC79 /* Reachability.swift in Sources */,
 				07E3C2331B03605B0010338D /* Dependencies.swift in Sources */,
+				84C21E702FB6FE2100D93853 /* SerialDispatchQueueScheduler.swift in Sources */,
 				84B39E112FB1AE390068D74F /* Create.swift in Sources */,
 				C82FF1291F93E84600BDB34D /* ItemPath.swift in Sources */,
 				C849EF9C1C31A8750048AC4A /* String+URL.swift in Sources */,

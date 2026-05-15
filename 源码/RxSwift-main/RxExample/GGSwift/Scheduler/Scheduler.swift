@@ -8,10 +8,6 @@
 import Dispatch
 import Foundation
 
-protocol GGImmediateSchedulerType {
-    func schedule<StateType>(_ state: StateType, action: @escaping (StateType) -> GGDisposable) -> GGDisposable
-}
-
 private class CurrentThreadSchedulerQueueKey: NSObject, NSCopying {
     static let instance = CurrentThreadSchedulerQueueKey()
     override private init() {

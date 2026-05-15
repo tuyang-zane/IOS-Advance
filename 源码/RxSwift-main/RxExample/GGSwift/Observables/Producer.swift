@@ -17,7 +17,22 @@ class GGProducer<Element>: GGObservable<Element> {
     }
     
     override func subscribe<Observer: GGObserverType>(_ observer: Observer) -> GGDisposable where Observer.Element == Element {
-        return self.executeSubscription(observer)
+        
+        if !GGCurrentThreadScheduler.isScheduleRequired {
+            // 已经在调度中 → 直接执行（不需要再走 schedule）
+            let disposer = GGSinkDisposer()
+            let sinkAndSubscription = run(observer, cancel: disposer)
+            disposer.setSinkAndSubscription(sink: sinkAndSubscription.sink, subscription: sinkAndSubscription.subscription)
+            return disposer
+        } else {
+            // 不在调度中 → 走 schedule 流程
+            return GGCurrentThreadScheduler.instance.schedule(()) { _ in
+                let disposer = GGSinkDisposer()
+                let sinkAndSubscription = self.run(observer, cancel: disposer)
+                disposer.setSinkAndSubscription(sink: sinkAndSubscription.sink, subscription: sinkAndSubscription.subscription)
+                return disposer
+            }
+        }
     }
     
     private func executeSubscription<Observer: GGObserverType>(_ observer: Observer) -> GGDisposable where Observer.Element == Element {
