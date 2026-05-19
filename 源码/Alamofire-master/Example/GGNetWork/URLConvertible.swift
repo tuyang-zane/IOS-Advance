@@ -40,10 +40,10 @@ extension URLRequest:URLRequestConvertible{
 }
 
 extension URLRequest{
-    init(url: any URLConvertible,method:HTTPMethod) throws{
+    init(url: any URLConvertible,method:HTTPMethod,headers: HTTPHeaders? = nil) throws{
         let url = try url.asURL()
         self.init(url: url)
         httpMethod = method.rawValue
-//        allHTTPHeaderFields =
+        allHTTPHeaderFields = headers?.dictionary
     }
 }
