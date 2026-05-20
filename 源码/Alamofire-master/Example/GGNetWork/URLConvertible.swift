@@ -46,4 +46,15 @@ extension URLRequest{
         httpMethod = method.rawValue
         allHTTPHeaderFields = headers?.dictionary
     }
+    
+    var method: HTTPMethod? {
+        get { httpMethod.map(HTTPMethod.init)}
+        set { httpMethod = newValue?.rawValue }
+    }
+    
+    func validate() throws {
+        if method == .get,let bodyData = httpBody{
+            throw GGError.urlRequestValidationFailed(reason: .bodyDataInGETRequest(bodyData))
+        }
+    }
 }

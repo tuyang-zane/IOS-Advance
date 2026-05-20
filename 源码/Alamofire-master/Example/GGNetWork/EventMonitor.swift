@@ -9,9 +9,33 @@
 import UIKit
 
 protocol EventMonitor: Sendable {
+    // MARK: -请求事件
+    func request(_ request: Request, didCreateInitialURLRequest urlRequest: URLRequest)
+    
+    func request(_ request: Request, didCreateURLRequest urlRequest: URLRequest)
 
 }
 
-public final class CompositeEventMonitor: EventMonitor {
+final class CompositeEventMonitor: EventMonitor {
     
+    public let queue: DispatchQueue
+    public var monitors: [any EventMonitor] {
+        _monitors.read(\.self)
+    }
+    let _monitors: Protected<[any EventMonitor]>
+
+    init(queue: DispatchQueue = DispatchQueue(label: "org.alamofire.compositeEventMonitor"), monitors: [any EventMonitor]) {
+        self.queue = queue
+        _monitors = Protected(monitors)
+    }
+
+    func request(_ request: Request, didCreateInitialURLRequest urlRequest: URLRequest)
+    {
+        
+    }
+    
+    func request(_ request: Request, didCreateURLRequest urlRequest: URLRequest){
+        
+    }
+
 }

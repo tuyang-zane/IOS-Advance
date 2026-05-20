@@ -23,19 +23,38 @@ class GGSession: @unchecked Sendable {
 
     public let eventMonitor: CompositeEventMonitor
 
+    public let requestSetup: RequestSetup
+
+    public let interceptor: (any RequestInterceptor)?
+
+    public let session: URLSession
+
+    struct MutableState {
+        /// Internal map between `Request`s and any `URLSessionTasks` that may be in flight for them.
+        var requestTaskMap = RequestTaskMap()
+        /// `Set` of currently active `Request`s.
+        var activeRequests: Set<Request> = []
+        /// Completion events awaiting `URLSessionTaskMetrics`.
+        var waitingCompletions: [URLSessionTask: () -> Void] = [:]
+    }
+
+    let mutableState = Protected(MutableState())
+
     enum RequestSetup {
         case lazy
         case eager
     }
     
     init(rootQueue: DispatchQueue = DispatchQueue(label: "org.GGsession.rootQueue"),
+        requestSetup: RequestSetup = .lazy,
         requestQueue: DispatchQueue? = nil,
         serializationQueue: DispatchQueue? = nil,
-        eventMonitor: CompositeEventMonitor) {
+        eventMonitors: [any EventMonitor] = [AlamofireNotifications()]) {
         self.rootQueue = rootQueue
-        self.requestQueue = requestQueue
-        self.serializationQueue = serializationQueue
-        self.eventMonitor = eventMonitor
+        self.requestQueue = requestQueue ?? DispatchQueue(label: "\(rootQueue.label).requestQueue",target: rootQueue)
+        self.serializationQueue = serializationQueue ?? DispatchQueue(label: "\(rootQueue.label).serializationQueue",target: rootQueue)
+        self.eventMonitor = CompositeEventMonitor(queue: rootQueue, monitors: eventMonitors)
+        self.requestSetup = requestSetup
     }
     
 //    let session:URLSession
@@ -93,9 +112,94 @@ class GGSession: @unchecked Sendable {
                                   interceptor: interceptor,
                                   shouldAutomaticallyResume: shouldAutomaticallyResume,
                                   delegate: self)
-
+        
+        // 是立即执行 → 马上启动请求
+        performEagerlyIfNEcessary(request)
+        return request
     }
     
+    func performEagerlyIfNEcessary(_ request:Request) {
+        guard requestSetup == .eager else { return }
+        perform(request)
+    }
+ 
+    func perform(_ request: Request, forRetry isRetrying: Bool = false) {
+        rootQueue.async {
+            self.mutableState.write { mutableState in
+                guard !request.isCancelled else { return }
+                guard mutableState.activeRequests.insert(request).inserted || isRetrying else { return }
+                self.requestQueue.async {
+                    switch request {
+                    case let r as DataRequest:
+                        self.performDataRequest(r)
+                    default:
+                        fatalError("Attempted to perform unsupported Request subclass: \(type(of: request))")
+                    }
+                }
+                
+            }
+        }
+    }
+    func performDataRequest(_ request: DataRequest) {
+        /*
+         作用：调试保护，确保代码一定跑在正确的队列
+         这是GCD 调度断言
+         作用：“这段代码必须在 requestQueue 上执行，否则直接崩溃”
+         只在DEBUG 模式生效
+         防止线程错误、队列错误
+         大型框架必备的安全检查
+         */
+        dispatchPrecondition(condition: .onQueue(requestQueue))
+        performSetupOperations(for: request, convertible: request.convertible)
+    }
+    
+    // 这是真正的请求准备 + 发送逻辑
+    func performSetupOperations(for request: Request,
+                                convertible: any URLRequestConvertible,
+                                shouldCreateTask: @escaping @Sendable () -> Bool = { true }) {
+        dispatchPrecondition(condition: .onQueue(requestQueue))
+
+        let initialRequet:URLRequest
+        do {
+            initialRequet = try convertible.asURLRequest()
+            try initialRequet.validate()
+        } catch {
+            // 错误处理
+            return
+        }
+        
+        rootQueue.async {
+            request.didCreateInitialURLRequest(initialRequet)
+        }
+        
+        guard !request.isCancelled else { return }
+
+        // 拦截
+        guard let adapter = adapter(for: request) else {
+            guard shouldCreateTask() else { return }
+            rootQueue.async { self.didCreateURLRequest(initialRequet, for: request) }
+            return
+        }
+    }
+    
+    func adapter(for request: Request) -> (any RequestAdapter)? {
+        if let requestInterceptor = request.interceptor, let sessionInterceptor = interceptor {
+            Interceptor(adapters: [sessionInterceptor, requestInterceptor])
+        }else{
+            request.interceptor ?? interceptor
+        }
+    }
+    
+    func didCreateURLRequest(_ urlRequest: URLRequest, for request: Request) {
+        dispatchPrecondition(condition: .onQueue(rootQueue))
+        request.didCreateURLRequest(urlRequest)
+        
+        guard !request.isCancelled else { return }
+
+        let task = request.task(for: urlRequest, using: session)
+        mutableState.write { $0.requestTaskMap[request] = task }
+        request.did
+    }
 }
 
 extension GGSession: RequestDelegate {

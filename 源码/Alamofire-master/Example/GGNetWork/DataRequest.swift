@@ -40,4 +40,8 @@ class DataRequest: Request,@unchecked Sendable {
 
     }
     
+    override func task(for request:URLRequest,using session:URLSession) -> URLSessionTask {
+        let copiedRequest = request
+        return session.dataTask(with: copiedRequest)
+    }
 }

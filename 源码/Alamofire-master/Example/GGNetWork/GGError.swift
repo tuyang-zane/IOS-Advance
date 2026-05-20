@@ -10,4 +10,9 @@ import UIKit
 
 enum GGError: Error, Sendable {
     case invalidURL(url: any URLConvertible)
+    case urlRequestValidationFailed(reason: URLRequestValidationFailureReason)
+    public enum URLRequestValidationFailureReason: Sendable {
+        /// URLRequest with GET method had body data.
+        case bodyDataInGETRequest(Data)
+    }
 }
