@@ -8,9 +8,9 @@
 
 import Foundation
 
-final class Protected<Value> {
+final class GGProtected<Value> {
 
-    private let lock = UnfairLock()
+    private let lock = GGUnfairLock()
 
     private nonisolated(unsafe) var value: Value
 
@@ -27,12 +27,12 @@ final class Protected<Value> {
     }
 }
 
-protocol Lock:Sendable{
+protocol GGLock:Sendable{
     func lock()
     func unlock()
 }
 
-extension Lock {
+extension GGLock {
     
     func around<T>(_ closure: () throws -> T) rethrows -> T {
         lock(); defer{unlock()}
@@ -40,7 +40,7 @@ extension Lock {
     }
 }
 
-final class UnfairLock: Lock, @unchecked Sendable {
+final class GGUnfairLock: GGLock, @unchecked Sendable {
  
     private let unfairLock: os_unfair_lock_t
     

@@ -18,7 +18,7 @@ import UIKit
  统一回调队列
  响应返回主线程 / 子线程
  */
-class Request: @unchecked Sendable {
+class GGRequest: @unchecked Sendable {
 
     public let id: UUID
 
@@ -28,19 +28,19 @@ class Request: @unchecked Sendable {
 
     public let shouldAutomaticallyResume: Bool?
     
-    public private(set) weak var delegate: (any RequestDelegate)?
+    public private(set) weak var delegate: (any GGRequestDelegate)?
 
-    let mutableState: Protected<MutableState>
+    let mutableState: GGProtected<GGMutableState>
 
     public var isCancelled: Bool { state == .cancelled }
 
     public var state: State { mutableState.read(\.state) }
 
-    public var eventMonitor: (any EventMonitor)? {
+    public var eventMonitor: (any GGEventMonitor)? {
         mutableState.read(\.eventMonitor)
     }
 
-    public var interceptor: (any RequestInterceptor)? {
+    public var interceptor: (any GGRequestInterceptor)? {
         mutableState.read(\.interceptor)
     }
 
@@ -65,27 +65,29 @@ class Request: @unchecked Sendable {
     init(id: UUID = UUID(),
          underlyingQueue: DispatchQueue,
          serializationQueue: DispatchQueue,
-         eventMonitor: (any EventMonitor)?,
-         interceptor: (any RequestInterceptor)?,
+         eventMonitor: (any GGEventMonitor)?,
+         interceptor: (any GGRequestInterceptor)?,
          shouldAutomaticallyResume: Bool?,
-         delegate: any RequestDelegate) {
+         delegate: any GGRequestDelegate) {
         self.id = id
         self.underlyingQueue = underlyingQueue
         self.serializationQueue = serializationQueue
-        mutableState = Protected(MutableState(eventMonitor: eventMonitor,
+        mutableState = GGProtected(GGMutableState(eventMonitor: eventMonitor,
                                               interceptor: interceptor))
         self.shouldAutomaticallyResume = shouldAutomaticallyResume
         self.delegate = delegate
     }
     
-    struct MutableState {
+    struct GGMutableState {
         var state: State = .initialized
-        var eventMonitor: (any EventMonitor)?
-        var interceptor: (any RequestInterceptor)?
+        var eventMonitor: (any GGEventMonitor)?
+        var interceptor: (any GGRequestInterceptor)?
         var requests: [URLRequest] = []
         var urlRequestHandler: (queue: DispatchQueue, handler: @Sendable (URLRequest) -> Void)?
         var cURLHandler: (queue: DispatchQueue, handler: @Sendable (String) -> Void)?
         var tasks: [URLSessionTask] = []
+        var responseSerializers: [@Sendable () -> Void] = []
+        var responseSerializerProcessingFinished = false
     }
 
     func didCreateInitialURLRequest(_ request: URLRequest) {
@@ -113,22 +115,43 @@ class Request: @unchecked Sendable {
         mutableState.write { mutableState in
             mutableState.tasks.append(task)
             
-            
             switch mutableState.state {
             case .initialized, .finished:
                 // Do nothing.
                 break
             case .resumed:
                 task.resume()
-
-            default:
-                <#code#>
+                underlyingQueue.async {
+                    self.didResumeTask(task)
+                }
+            case .suspended:
+                task.suspend()
+                underlyingQueue.async {self.didSuspendTask(task)}
+            case .cancelled:
+                task.resume()
+                task.cancel()
+                underlyingQueue.async {self.didCancelTask(task)}
             }
 
         }
     }
     
-    ///异步调用任何存储的‘ cURLHandler ’，然后从‘ mutableState ’中删除它。
+    func didSuspendTask(_ task: URLSessionTask) {
+        dispatchPrecondition(condition: .onQueue(underlyingQueue))
+        eventMonitor?.request(self, didSuspendTask: task)
+    }
+
+    func didCancelTask(_ task: URLSessionTask) {
+        dispatchPrecondition(condition: .onQueue(underlyingQueue))
+        eventMonitor?.request(self, didCancelTask: task)
+    }
+
+    func didResumeTask(_ task:URLSessionTask) {
+        dispatchPrecondition(condition: .onQueue(underlyingQueue))
+        eventMonitor?.request(self, didResumeTask: task)
+    }
+    
+    ///异步调用任何存储的' cURLHandler '，然后从' mutableState '中删除它。
     private func callCURLHandlerIfNecessary() {
         mutableState.write { mutableState in
             guard let cURLHandler = mutableState.cURLHandler else { return }
@@ -143,16 +166,47 @@ class Request: @unchecked Sendable {
         fatalError("Subclasses must override.")
     }
 
+    
+    func appendResponseSerializer(_ closure: @escaping @Sendable () -> Void) {
+        mutableState.write { mutableState in
+            mutableState.responseSerializers.append(closure)
+            
+            if mutableState.state == .finished {
+                mutableState.state = .resumed
+            }
+
+//            if mutableState.responseSerializerProcessingFinished{
+//            }
+            
+            underlyingQueue.async {[self] in
+                resume()
+            }
+
+        }
+    }
+    
+    public func resume() -> Self {
+       let _ = mutableState.write { mutableState in
+            guard let task = mutableState.tasks.last else {
+                return true
+            }
+            guard task.state != .completed else {return false}
+            task.resume()
+            return false
+        }
+        return self
+    }
+
 }
 
-extension Request{
+extension GGRequest{
     public func cURLDescription() -> String {
         "no have"
     }
 }
 
-extension Request:Hashable,Equatable{
-    static func == (lhs: Request, rhs: Request) -> Bool {
+extension GGRequest:Hashable,Equatable{
+    static func == (lhs: GGRequest, rhs: GGRequest) -> Bool {
         lhs.id == rhs.id
     }
     func hash(into hasher: inout Hasher) {
@@ -161,6 +215,6 @@ extension Request:Hashable,Equatable{
 }
 
 //这个协议，只能被【类 class】遵守，不能被结构体 struct / 枚举 enum 遵守！
-public protocol RequestDelegate: AnyObject, Sendable {
+public protocol GGRequestDelegate: AnyObject, Sendable {
     
 }

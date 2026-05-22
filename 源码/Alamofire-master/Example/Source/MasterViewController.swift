@@ -44,6 +44,11 @@ class MasterViewController: UITableViewController {
 
         reachability = NetworkReachabilityManager.default
         monitorReachability()
+        
+        let re = GG.request("https://httpbin.org/get")
+        re.responseString { _ in
+            print("responseString============= ")
+        }
     }
 
     // MARK: - UIStoryboardSegue

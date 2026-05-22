@@ -15,46 +15,94 @@ class GGSession: @unchecked Sendable {
     /// 统一管理整个 Alamofire 的线程资源，不乱开线程。
     public let rootQueue: DispatchQueue
 
-    ///把 “构建请求” 的工作从主线程剥离，不卡 UI。
+    ///把 "构建请求" 的工作从主线程剥离，不卡 UI。
     public let requestQueue: DispatchQueue
     
     // 解析数据不卡网络队列，解析不影响请求发送。
     public let serializationQueue: DispatchQueue
 
-    public let eventMonitor: CompositeEventMonitor
+    public let eventMonitor: GGCompositeEventMonitor
 
-    public let requestSetup: RequestSetup
+    public let requestSetup: GGRequestSetup
 
-    public let interceptor: (any RequestInterceptor)?
+    public let interceptor: (any GGRequestInterceptor)?
 
     public let session: URLSession
 
-    struct MutableState {
+    public let delegate: GGSessionDelegate
+
+    struct GGMutableState {
         /// Internal map between `Request`s and any `URLSessionTasks` that may be in flight for them.
-        var requestTaskMap = RequestTaskMap()
+        var requestTaskMap = GGRequestTaskMap()
         /// `Set` of currently active `Request`s.
-        var activeRequests: Set<Request> = []
+        var activeRequests: Set<GGRequest> = []
         /// Completion events awaiting `URLSessionTaskMetrics`.
         var waitingCompletions: [URLSessionTask: () -> Void] = [:]
     }
 
-    let mutableState = Protected(MutableState())
+    let mutableState = GGProtected(GGMutableState())
 
-    enum RequestSetup {
+    enum GGRequestSetup {
         case lazy
         case eager
     }
     
-    init(rootQueue: DispatchQueue = DispatchQueue(label: "org.GGsession.rootQueue"),
-        requestSetup: RequestSetup = .lazy,
+    /*
+     // 1. 标准模式（最常用）
+     let config = URLSessionConfiguration.default
+
+     // 2. 临时模式（不缓存、不写磁盘，用完就丢）
+     let config = URLSessionConfiguration.ephemeral
+
+     // 3. 后台后台上传/下载模式（APP退后台也能继续）
+     let config = URLSessionConfiguration.background(withIdentifier: "xxx")
+     */
+    convenience init(configuration: URLSessionConfiguration = URLSessionConfiguration.af.default,
+                     delegate: GGSessionDelegate = GGSessionDelegate(),
+                     rootQueue: DispatchQueue = DispatchQueue(label: "org.GGsession.rootQueue"),
+                     requestSetup: GGRequestSetup = .lazy,
+                     requestQueue: DispatchQueue? = nil,
+                     serializationQueue: DispatchQueue? = nil,
+                     interceptor: (any GGRequestInterceptor)? = nil,
+                     eventMonitors: [any GGEventMonitor] = [GGAlamofireNotifications()]) {
+        
+        precondition(configuration.identifier == nil, "Alamofire does not support background URLSessionConfigurations.")
+
+        let serialRootQueue = (rootQueue === DispatchQueue.main) ? rootQueue : DispatchQueue(label: rootQueue.label,target: rootQueue)
+        
+        let delegateQueue = OperationQueue()
+        delegateQueue.maxConcurrentOperationCount = 1
+        delegateQueue.underlyingQueue = serialRootQueue
+        delegateQueue.name = "\(serialRootQueue.label).sessionDelegate"
+        let session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: delegateQueue)
+
+        self.init(session: session,
+                  delegate: delegate,
+                  rootQueue: serialRootQueue,
+                  requestSetup: requestSetup,
+                  requestQueue: requestQueue,
+                  serializationQueue: serializationQueue,
+                  interceptor: interceptor,
+                  eventMonitors: eventMonitors)
+    }
+    
+    init(session: URLSession,
+         delegate: GGSessionDelegate,
+        rootQueue: DispatchQueue = DispatchQueue(label: "org.GGsession.rootQueue"),
+        requestSetup: GGRequestSetup = .lazy,
         requestQueue: DispatchQueue? = nil,
         serializationQueue: DispatchQueue? = nil,
-        eventMonitors: [any EventMonitor] = [AlamofireNotifications()]) {
+        interceptor: (any GGRequestInterceptor)? = nil,
+        eventMonitors: [any GGEventMonitor] = [GGAlamofireNotifications()]) {
         self.rootQueue = rootQueue
         self.requestQueue = requestQueue ?? DispatchQueue(label: "\(rootQueue.label).requestQueue",target: rootQueue)
         self.serializationQueue = serializationQueue ?? DispatchQueue(label: "\(rootQueue.label).serializationQueue",target: rootQueue)
-        self.eventMonitor = CompositeEventMonitor(queue: rootQueue, monitors: eventMonitors)
+        self.eventMonitor = GGCompositeEventMonitor(queue: rootQueue, monitors: eventMonitors)
         self.requestSetup = requestSetup
+        self.interceptor = interceptor
+        self.session = session
+        self.delegate = delegate
+
     }
     
 //    let session:URLSession
@@ -64,15 +112,15 @@ class GGSession: @unchecked Sendable {
 //    let startRequestsImmediately: Bool
     
     //一句话：它是一个「闭包」，用来在单个请求发出去之前，就地修改底层的 URLRequest。
-    typealias RequestModifier = @Sendable(inout URLRequest) throws -> Void
+    typealias GGRequestModifier = @Sendable(inout URLRequest) throws -> Void
     
-    struct RequestConvertible:URLRequestConvertible {
-        let url :any URLConvertible
-        let method: HTTPMethod
-        let parameters: Parameters?
-        let encoding: any ParameterEncoding
-        let headers: HTTPHeaders?
-        let requestModifier: RequestModifier?
+    struct GGRequestConvertible:GGURLRequestConvertible {
+        let url :any GGURLConvertible
+        let method: GGHTTPMethod
+        let parameters: GGParameters?
+        let encoding: any GGParameterEncoding
+        let headers: GGHTTPHeaders?
+        let requestModifier: GGRequestModifier?
 
         func asURLRequest() throws -> URLRequest {
             var request = try URLRequest(url: url, method: method,headers: headers)
@@ -82,17 +130,17 @@ class GGSession: @unchecked Sendable {
     }
     
     //interceptor 一句话：控制 Alamofire 在网络恢复时 **，是否自动重试刚才失败的请求。**
-    func request(_ convertible:any URLConvertible,
-                 method:HTTPMethod = .get,
-                 parameters: Parameters? = nil,
-                 encoding: any ParameterEncoding = URLEncoding.default,
-                 headers:HTTPHeaders? = nil,
-                 interceptor: (any RequestInterceptor)? = nil,
+    func request(_ convertible:any GGURLConvertible,
+                 method:GGHTTPMethod = .get,
+                 parameters: GGParameters? = nil,
+                 encoding: any GGParameterEncoding = GGURLEncoding.default,
+                 headers:GGHTTPHeaders? = nil,
+                 interceptor: (any GGRequestInterceptor)? = nil,
                  shouldAutomaticallyResume: Bool? = nil,
-                 requestModifier: RequestModifier? = nil
-    ) -> DataRequest{
+                 requestModifier: GGRequestModifier? = nil
+    ) -> GGDataRequest{
         
-        let convertible = RequestConvertible(url: convertible,
+        let convertible = GGRequestConvertible(url: convertible,
                                              method: method,
                                              parameters: parameters,
                                              encoding: encoding,
@@ -101,11 +149,11 @@ class GGSession: @unchecked Sendable {
         return self.request(convertible,interceptor: interceptor,shouldAutomaticallyResume: shouldAutomaticallyResume)
     }
     
-    func request(_ convertible: any URLRequestConvertible,
-                 interceptor: (any RequestInterceptor)? = nil,
+    func request(_ convertible: any GGURLRequestConvertible,
+                 interceptor: (any GGRequestInterceptor)? = nil,
                  shouldAutomaticallyResume: Bool? = nil,
-    ) -> DataRequest {
-        let request = DataRequest(convertible: convertible,
+    ) -> GGDataRequest {
+        let request = GGDataRequest(convertible: convertible,
                                   underlyingQueue: rootQueue,
                                   serializationQueue: serializationQueue,
                                   eventMonitor: eventMonitor,
@@ -113,24 +161,23 @@ class GGSession: @unchecked Sendable {
                                   shouldAutomaticallyResume: shouldAutomaticallyResume,
                                   delegate: self)
         
-        // 是立即执行 → 马上启动请求
         performEagerlyIfNEcessary(request)
         return request
     }
     
-    func performEagerlyIfNEcessary(_ request:Request) {
+    func performEagerlyIfNEcessary(_ request:GGRequest) {
         guard requestSetup == .eager else { return }
         perform(request)
     }
  
-    func perform(_ request: Request, forRetry isRetrying: Bool = false) {
+    func perform(_ request: GGRequest, forRetry isRetrying: Bool = false) {
         rootQueue.async {
             self.mutableState.write { mutableState in
                 guard !request.isCancelled else { return }
                 guard mutableState.activeRequests.insert(request).inserted || isRetrying else { return }
                 self.requestQueue.async {
                     switch request {
-                    case let r as DataRequest:
+                    case let r as GGDataRequest:
                         self.performDataRequest(r)
                     default:
                         fatalError("Attempted to perform unsupported Request subclass: \(type(of: request))")
@@ -140,11 +187,11 @@ class GGSession: @unchecked Sendable {
             }
         }
     }
-    func performDataRequest(_ request: DataRequest) {
+    func performDataRequest(_ request: GGDataRequest) {
         /*
          作用：调试保护，确保代码一定跑在正确的队列
          这是GCD 调度断言
-         作用：“这段代码必须在 requestQueue 上执行，否则直接崩溃”
+         作用："这段代码必须在 requestQueue 上执行，否则直接崩溃"
          只在DEBUG 模式生效
          防止线程错误、队列错误
          大型框架必备的安全检查
@@ -154,8 +201,8 @@ class GGSession: @unchecked Sendable {
     }
     
     // 这是真正的请求准备 + 发送逻辑
-    func performSetupOperations(for request: Request,
-                                convertible: any URLRequestConvertible,
+    func performSetupOperations(for request: GGRequest,
+                                convertible: any GGURLRequestConvertible,
                                 shouldCreateTask: @escaping @Sendable () -> Bool = { true }) {
         dispatchPrecondition(condition: .onQueue(requestQueue))
 
@@ -182,15 +229,15 @@ class GGSession: @unchecked Sendable {
         }
     }
     
-    func adapter(for request: Request) -> (any RequestAdapter)? {
+    func adapter(for request: GGRequest) -> (any GGRequestAdapter)? {
         if let requestInterceptor = request.interceptor, let sessionInterceptor = interceptor {
-            Interceptor(adapters: [sessionInterceptor, requestInterceptor])
+            GGInterceptor(adapters: [sessionInterceptor, requestInterceptor])
         }else{
             request.interceptor ?? interceptor
         }
     }
     
-    func didCreateURLRequest(_ urlRequest: URLRequest, for request: Request) {
+    func didCreateURLRequest(_ urlRequest: URLRequest, for request: GGRequest) {
         dispatchPrecondition(condition: .onQueue(rootQueue))
         request.didCreateURLRequest(urlRequest)
         
@@ -198,10 +245,14 @@ class GGSession: @unchecked Sendable {
 
         let task = request.task(for: urlRequest, using: session)
         mutableState.write { $0.requestTaskMap[request] = task }
-        request.did
+        request.didCreateTask(task)
     }
 }
 
-extension GGSession: RequestDelegate {
+extension GGSession: GGRequestDelegate {
+    
+    public func readyToPerform(request: GGRequest) {
+        perform(request)
+    }
     
 }

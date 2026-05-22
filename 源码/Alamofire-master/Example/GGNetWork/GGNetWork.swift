@@ -8,4 +8,5 @@
 
 import UIKit
 
-let GG = GGSeesion.default
+// request + reponse + decode
+let GG = GGSession.default

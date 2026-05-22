@@ -8,47 +8,47 @@
 
 import Foundation
 
-protocol URLConvertible: Sendable {
+protocol GGURLConvertible: Sendable {
     func asURL() throws -> URL
 }
 
-extension String:URLConvertible{
+extension String:GGURLConvertible{
     public func asURL() throws -> URL {
         guard let url = URL(string: self) else { throw GGError.invalidURL(url: self) }
         return url
     }
 }
 
-extension URL: URLConvertible {
+extension URL: GGURLConvertible {
     /// Returns `self`.
     public func asURL() throws -> URL { self }
 }
 
-extension URLComponents: URLConvertible{
+extension URLComponents: GGURLConvertible{
     public func asURL() throws -> URL {
         guard let url else { throw GGError.invalidURL(url: self) }
         return url
     }
 }
 
-protocol URLRequestConvertible: Sendable {
+protocol GGURLRequestConvertible: Sendable {
     func asURLRequest() throws -> URLRequest
 }
 
-extension URLRequest:URLRequestConvertible{
+extension URLRequest:GGURLRequestConvertible{
     public func asURLRequest() throws -> URLRequest { self }
 }
 
 extension URLRequest{
-    init(url: any URLConvertible,method:HTTPMethod,headers: HTTPHeaders? = nil) throws{
+    init(url: any GGURLConvertible,method:GGHTTPMethod,headers: GGHTTPHeaders? = nil) throws{
         let url = try url.asURL()
         self.init(url: url)
         httpMethod = method.rawValue
         allHTTPHeaderFields = headers?.dictionary
     }
     
-    var method: HTTPMethod? {
-        get { httpMethod.map(HTTPMethod.init)}
+    var method: GGHTTPMethod? {
+        get { httpMethod.map(GGHTTPMethod.init)}
         set { httpMethod = newValue?.rawValue }
     }
     

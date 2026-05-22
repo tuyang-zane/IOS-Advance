@@ -8,6 +8,6 @@
 
 import UIKit
 
-final class AlamofireNotifications: EventMonitor {
+final class GGAlamofireNotifications: GGEventMonitor {
 
 }

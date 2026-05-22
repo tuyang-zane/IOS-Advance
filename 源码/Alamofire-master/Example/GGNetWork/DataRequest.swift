@@ -16,18 +16,18 @@ import Foundation
  ⑤ 监听上传 / 下载进度
  */
 
-class DataRequest: Request,@unchecked Sendable {
+class GGDataRequest: GGRequest,@unchecked Sendable {
 
-    public let convertible: any URLRequestConvertible
+    public let convertible: any GGURLRequestConvertible
 
     init(id: UUID = UUID(),// 唯一ID，用来追踪请求
-         convertible: any URLRequestConvertible,// 唯一ID，用来追踪请求
+         convertible: any GGURLRequestConvertible,// 唯一ID，用来追踪请求
          underlyingQueue: DispatchQueue,// 底层工作队列（网络执行）
          serializationQueue: DispatchQueue,// 序列化队列（解析JSON/数据）
-         eventMonitor: (any EventMonitor)?,// 事件监听（日志、埋点）
-         interceptor: (any RequestInterceptor)?, // 请求拦截器（Token、重试）
+         eventMonitor: (any GGEventMonitor)?,// 事件监听（日志、埋点）
+         interceptor: (any GGRequestInterceptor)?, // 请求拦截器（Token、重试）
          shouldAutomaticallyResume: Bool?,// 网络恢复后是否自动重试
-         delegate: any RequestDelegate  // 代理（执行请求、回调、状态管理）
+         delegate: any GGRequestDelegate  // 代理（执行请求、回调、状态管理）
     ) {
         self.convertible = convertible
         super.init(id: id,
@@ -43,5 +43,45 @@ class DataRequest: Request,@unchecked Sendable {
     override func task(for request:URLRequest,using session:URLSession) -> URLSessionTask {
         let copiedRequest = request
         return session.dataTask(with: copiedRequest)
+    }
+    
+    
+    public func responseString(queue: DispatchQueue = .main,
+                               dataPreprocessor: any DataPreprocessor = StringResponseSerializer.defaultDataPreprocessor,
+                               encoding: String.Encoding? = nil,
+                               emptyResponseCodes: Set<Int> = StringResponseSerializer.defaultEmptyResponseCodes,
+                               emptyRequestMethods: Set<GGHTTPMethod> = StringResponseSerializer.defaultEmptyRequestMethods,
+                               completionHandler: @escaping @Sendable (GGDataResponse<String>) -> Void) -> Self {
+        response(queue: queue,
+                 responseSerializer: StringResponseSerializer(dataPreprocessor: dataPreprocessor,
+                                                              encoding: encoding,
+                                                              emptyResponseCodes: emptyResponseCodes,
+                                                              emptyRequestMethods: emptyRequestMethods),
+                 completionHandler: completionHandler)
+    }
+    
+    @preconcurrency
+    func response<Serializer: ResponseSerializer>(queue: DispatchQueue = .main,
+                                                         responseSerializer: Serializer,
+                                                         completionHandler: @escaping @Sendable (GGDataResponse<Serializer.SerializedObject>) -> Void)
+    -> Self {
+        _response(queue: queue, responseSerializer: responseSerializer, completionHandler: completionHandler)
+
+    }
+    
+    private func _response<Serializer: DataResponseSerializerProtocol>(queue: DispatchQueue = .main,
+                                                                       responseSerializer: Serializer,
+                                                                       completionHandler: @escaping @Sendable (GGDataResponse<Serializer.SerializedObject>) -> Void)
+    -> Self {
+        appendResponseSerializer {
+            // 统计响应序列化解析耗时
+//            let start = ProcessInfo.processInfo.systemUptime // 计时开始
+//
+//            let result = GGResult<Serializer.SerializedObject> = Result{
+//                responseSerializer.
+//            }
+            
+        }
+        return self
     }
 }

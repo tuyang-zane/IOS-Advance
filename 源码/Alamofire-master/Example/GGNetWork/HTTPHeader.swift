@@ -8,20 +8,20 @@
 
 import UIKit
 
-public struct HTTPHeaders : Equatable, Hashable, Sendable {
-    private var headers: [HTTPHeader] = []
+public struct GGHTTPHeaders : Equatable, Hashable, Sendable {
+    private var headers: [GGHTTPHeader] = []
     public init() {}
-    public init(_ headers: [HTTPHeader]) {
+    public init(_ headers: [GGHTTPHeader]) {
         headers.forEach { update($0) }
     }
     
     public mutating func update(name: String, value: String) {
-        update(HTTPHeader(name: name, value: value))
+        update(GGHTTPHeader(name: name, value: value))
     }
     /// Case-insensitively updates or appends the provided `HTTPHeader` into the instance.
     ///
     /// - Parameter header: The `HTTPHeader` to update or append.
-    public mutating func update(_ header: HTTPHeader) {
+    public mutating func update(_ header: GGHTTPHeader) {
         guard let index = headers.index(of: header.name) else {
             headers.append(header)
             return
@@ -35,7 +35,7 @@ public struct HTTPHeaders : Equatable, Hashable, Sendable {
     }
 }
 
-extension [HTTPHeader] {
+extension [GGHTTPHeader] {
     /// Case-insensitively finds the index of an `HTTPHeader` with the provided name, if it exists.
     func index(of name: String) -> Int? {
         let lowercasedName = name.lowercased()
@@ -43,7 +43,7 @@ extension [HTTPHeader] {
     }
 }
 
-public struct HTTPHeader: Equatable, Hashable, Sendable {
+public struct GGHTTPHeader: Equatable, Hashable, Sendable {
     /// Name of the header.
     public let name: String
 

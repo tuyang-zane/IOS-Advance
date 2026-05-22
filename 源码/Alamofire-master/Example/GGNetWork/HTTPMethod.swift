@@ -8,27 +8,27 @@
 
 import UIKit
 
-struct HTTPMethod: RawRepresentable, Equatable, Hashable, Sendable {
+struct GGHTTPMethod: RawRepresentable, Equatable, Hashable, Sendable {
     /// `CONNECT` method.
-    public static let connect = HTTPMethod(rawValue: "CONNECT")
+    public static let connect = GGHTTPMethod(rawValue: "CONNECT")
     /// `DELETE` method.
-    public static let delete = HTTPMethod(rawValue: "DELETE")
+    public static let delete = GGHTTPMethod(rawValue: "DELETE")
     /// `GET` method.
-    public static let get = HTTPMethod(rawValue: "GET")
+    public static let get = GGHTTPMethod(rawValue: "GET")
     /// `HEAD` method.
-    public static let head = HTTPMethod(rawValue: "HEAD")
+    public static let head = GGHTTPMethod(rawValue: "HEAD")
     /// `OPTIONS` method.
-    public static let options = HTTPMethod(rawValue: "OPTIONS")
+    public static let options = GGHTTPMethod(rawValue: "OPTIONS")
     /// `PATCH` method.
-    public static let patch = HTTPMethod(rawValue: "PATCH")
+    public static let patch = GGHTTPMethod(rawValue: "PATCH")
     /// `POST` method.
-    public static let post = HTTPMethod(rawValue: "POST")
+    public static let post = GGHTTPMethod(rawValue: "POST")
     /// `PUT` method.
-    public static let put = HTTPMethod(rawValue: "PUT")
+    public static let put = GGHTTPMethod(rawValue: "PUT")
     /// `QUERY` method.
-    public static let query = HTTPMethod(rawValue: "QUERY")
+    public static let query = GGHTTPMethod(rawValue: "QUERY")
     /// `TRACE` method.
-    public static let trace = HTTPMethod(rawValue: "TRACE")
+    public static let trace = GGHTTPMethod(rawValue: "TRACE")
 
     public let rawValue: String
 

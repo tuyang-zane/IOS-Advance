@@ -8,33 +8,64 @@
 
 import UIKit
 
-protocol EventMonitor: Sendable {
+protocol GGEventMonitor: Sendable {
     // MARK: -请求事件
-    func request(_ request: Request, didCreateInitialURLRequest urlRequest: URLRequest)
+    func request(_ request: GGRequest, didCreateInitialURLRequest urlRequest: URLRequest)
     
-    func request(_ request: Request, didCreateURLRequest urlRequest: URLRequest)
+    func request(_ request: GGRequest, didCreateURLRequest urlRequest: URLRequest)
+
+    func request(_ request: GGRequest, didResumeTask task: URLSessionTask)
+    
+    func request(_ request: GGRequest, didSuspendTask task: URLSessionTask)
+
+    func request(_ request: GGRequest, didCancelTask task: URLSessionTask)
 
 }
 
-final class CompositeEventMonitor: EventMonitor {
+extension GGEventMonitor{
+    func request(_ request: GGRequest, didCreateInitialURLRequest urlRequest: URLRequest){}
+    
+    func request(_ request: GGRequest, didCreateURLRequest urlRequest: URLRequest){}
+    
+    func request(_ request: GGRequest, didResumeTask task: URLSessionTask) {}
+    
+    func request(_ request: GGRequest, didSuspendTask task: URLSessionTask){}
+    
+    func request(_ request: GGRequest, didCancelTask task: URLSessionTask) {}
+}
+
+final class GGCompositeEventMonitor: GGEventMonitor {
     
     public let queue: DispatchQueue
-    public var monitors: [any EventMonitor] {
+    public var monitors: [any GGEventMonitor] {
         _monitors.read(\.self)
     }
-    let _monitors: Protected<[any EventMonitor]>
+    let _monitors: GGProtected<[any GGEventMonitor]>
 
-    init(queue: DispatchQueue = DispatchQueue(label: "org.alamofire.compositeEventMonitor"), monitors: [any EventMonitor]) {
+    init(queue: DispatchQueue = DispatchQueue(label: "org.GG.alamofire.compositeEventMonitor"), monitors: [any GGEventMonitor] = []) {
         self.queue = queue
-        _monitors = Protected(monitors)
+        _monitors = GGProtected(monitors)
     }
 
-    func request(_ request: Request, didCreateInitialURLRequest urlRequest: URLRequest)
+    func request(_ request: GGRequest, didCreateInitialURLRequest urlRequest: URLRequest)
     {
         
     }
     
-    func request(_ request: Request, didCreateURLRequest urlRequest: URLRequest){
+    func request(_ request: GGRequest, didCreateURLRequest urlRequest: URLRequest){
+        
+    }
+    
+    func request(_ request: GGRequest, didResumeTask task: URLSessionTask) {
+        
+    }
+    
+    func request(_ request: GGRequest, didSuspendTask task: URLSessionTask)
+    {
+        
+    }
+    
+    func request(_ request: GGRequest, didCancelTask task: URLSessionTask) {
         
     }
 
