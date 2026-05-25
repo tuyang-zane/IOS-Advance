@@ -177,7 +177,6 @@ class GGRequest: @unchecked Sendable {
 
 //            if mutableState.responseSerializerProcessingFinished{
 //            }
-            
             underlyingQueue.async {[self] in
                 resume()
             }
