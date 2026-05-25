@@ -9,9 +9,9 @@ import UIKit
 
 final class GGConstraintItem {
     internal weak var target: AnyObject?
-    internal let attributes: ConstraintAttributes
+    internal let attributes: GGConstraintAttributes
     
-    init(target: AnyObject? = nil, attributes: ConstraintAttributes) {
+    init(target: AnyObject? = nil, attributes: GGConstraintAttributes) {
         self.target = target
         self.attributes = attributes
     }

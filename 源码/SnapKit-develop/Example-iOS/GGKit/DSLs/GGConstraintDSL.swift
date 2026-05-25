@@ -28,6 +28,22 @@ protocol GGConstraintBasicAttributesDSL : GGConstraintDSL{
 extension GGConstraintBasicAttributesDSL {
     // MARK： 基础
     var left: GGConstraintItem {
-        return GGConstraintItem(target: self.target, attributes: ConstraintAttributes)
+        return GGConstraintItem(target: self.target, attributes: GGConstraintAttributes.left)
     }
+    
+    var top: GGConstraintItem {
+        return GGConstraintItem(target: self.target, attributes: GGConstraintAttributes.top)
+    }
+
+    var right: GGConstraintItem {
+        return GGConstraintItem(target: self.target, attributes: GGConstraintAttributes.right)
+    }
+
+    var bottom: GGConstraintItem {
+        return GGConstraintItem(target: self.target, attributes: GGConstraintAttributes.bottom)
+    }
+}
+
+
+public protocol GGConstraintAttributesDSL : GGConstraintBasicAttributesDSL {
 }
