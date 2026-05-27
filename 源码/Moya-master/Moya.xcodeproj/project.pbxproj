@@ -29,6 +29,7 @@
 		1FD44D9E21CEA6B6221807EF /* NetworkLoggerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4553E5591EE96535C5310C02 /* NetworkLoggerPlugin.swift */; };
 		2ADDFC96D7F7912333534C46 /* SignalProducer+Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269C64D1ABED61A91DD873D3 /* SignalProducer+Response.swift */; };
 		2C7132B56A7B129E12BAACAC /* EndpointSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E825A32256FC030B8BA2684D /* EndpointSpec.swift */; };
+		2E9467292FC73DD100CF8725 /* GGEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9467282FC73DD100CF8725 /* GGEndPoint.swift */; };
 		312750ECEEBC68A508BFD681 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 559D567FD0DA37D6CC98FF92 /* Moya.framework */; };
 		3AF7063CBE1F9626FB32D933 /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2B20158E599EDBE51D7AB2 /* Cancellable.swift */; };
 		4033070748A57EB4A0040DB1 /* NetworkLoggerPluginSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832781077A551E1F86E5F2D4 /* NetworkLoggerPluginSpec.swift */; };
@@ -183,6 +184,7 @@
 		269C64D1ABED61A91DD873D3 /* SignalProducer+Response.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "SignalProducer+Response.swift"; sourceTree = "<group>"; };
 		2AD20F6A819D899E3278E903 /* NetworkActivityPlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkActivityPlugin.swift; sourceTree = "<group>"; };
 		2D47F3DC51C28D950491FAAB /* MoyaError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MoyaError.swift; sourceTree = "<group>"; };
+		2E9467282FC73DD100CF8725 /* GGEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGEndPoint.swift; sourceTree = "<group>"; };
 		31BAAD7EC02607A52AD3EF1E /* AccessTokenPluginSpec.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccessTokenPluginSpec.swift; sourceTree = "<group>"; };
 		369649DCA3D957F2F9D8053A /* MultipartFormDataSpec.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MultipartFormDataSpec.swift; sourceTree = "<group>"; };
 		371C174EF53873DE04BB159E /* MoyaProvider+Reactive.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "MoyaProvider+Reactive.swift"; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 				84B0181F2FC6F21B009E7BE6 /* Verification */,
 				84B018202FC6F21B009E7BE6 /* GGTargetType.swift */,
 				84B018262FC6FB04009E7BE6 /* GGJayProvider.swift */,
+				2E9467282FC73DD100CF8725 /* GGEndPoint.swift */,
 			);
 			path = Jay;
 			sourceTree = "<group>";
@@ -1048,6 +1051,7 @@
 				84B018272FC6FB04009E7BE6 /* GGJayProvider.swift in Sources */,
 				84B0182D2FC6FC61009E7BE6 /* GGResponse.swift in Sources */,
 				469A06BB1F70637C001153A0 /* GiphyAPI.swift in Sources */,
+				2E9467292FC73DD100CF8725 /* GGEndPoint.swift in Sources */,
 				84B018222FC6F21B009E7BE6 /* GGTargetType.swift in Sources */,
 				84B018302FC6FDD6009E7BE6 /* Cancellable.swift in Sources */,
 				84B018232FC6F21B009E7BE6 /* Verification1.swift in Sources */,

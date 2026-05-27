@@ -8,6 +8,8 @@
 import Foundation
 import Alamofire
 
+typealias HTTPMethod = Alamofire.HTTPMethod
+
 /*
  面向协议描述 -> 枚举配置 -> 简易调用
  */
@@ -17,7 +19,7 @@ protocol GGTargetType {
     ///添加到‘ baseURL ’以形成完整的‘ URL ’的路径。
     var path: String { get }
 
-    var method: Alamofire.HTTPMethod { get }
+    var method: HTTPMethod { get }
 
     var headers: [String: String]? { get }
 }
