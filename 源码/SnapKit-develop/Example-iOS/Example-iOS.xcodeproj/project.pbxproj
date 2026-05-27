@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E9467272FC49CA200CF8725 /* GGConstraintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9467262FC49CA200CF8725 /* GGConstraintView.swift */; };
 		440B451E25D8696C00334F54 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440B451B25D8696C00334F54 /* ListViewController.swift */; };
 		440B452125D869A700334F54 /* BasicUIScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440B451F25D869A700334F54 /* BasicUIScrollViewController.swift */; };
 		440B452225D869A700334F54 /* SimpleLayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440B452025D869A700334F54 /* SimpleLayoutViewController.swift */; };
@@ -16,10 +15,25 @@
 		44477D7B25D86846009F5E40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44477D7A25D86846009F5E40 /* Assets.xcassets */; };
 		44477D7E25D86846009F5E40 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44477D7C25D86846009F5E40 /* LaunchScreen.storyboard */; };
 		5D64AC0228D087AD00FFEC29 /* libswiftCoreGraphics.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D64AC0128D087A400FFEC29 /* libswiftCoreGraphics.tbd */; };
+		84B00F872FC6A15B009E7BE6 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B00F862FC6A15B009E7BE6 /* Extension.swift */; };
+		84BA5DAB2FC5334200EDA47E /* GGConstraintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DAA2FC5334200EDA47E /* GGConstraintView.swift */; };
+		84BA5DB02FC5335A00EDA47E /* GGConstraintDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DAE2FC5335A00EDA47E /* GGConstraintDSL.swift */; };
+		84BA5DB12FC5335A00EDA47E /* GGConstraintViewDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DAF2FC5335A00EDA47E /* GGConstraintViewDSL.swift */; };
+		84BA5DB42FC5336300EDA47E /* GGConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DB32FC5336300EDA47E /* GGConstraintItem.swift */; };
+		84BA5DB52FC5336300EDA47E /* GGConstraintAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DB22FC5336300EDA47E /* GGConstraintAttributes.swift */; };
+		84BA5DB82FC534E200EDA47E /* GGConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DB72FC534E200EDA47E /* GGConstraintMaker.swift */; };
+		84BA5DBA2FC5351900EDA47E /* GGConstraintMakerExtendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DB92FC5351900EDA47E /* GGConstraintMakerExtendable.swift */; };
+		84BA5DBC2FC535BD00EDA47E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 84BA5DBB2FC535BD00EDA47E /* README.md */; };
+		84BA5DBE2FC535FD00EDA47E /* GGConstraintMakerRelatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DBD2FC535FD00EDA47E /* GGConstraintMakerRelatable.swift */; };
+		84BA5DC02FC5384100EDA47E /* GGLayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DBF2FC5384100EDA47E /* GGLayoutConstraintItem.swift */; };
+		84BA5DC22FC5408500EDA47E /* GGConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DC12FC5408500EDA47E /* GGConstraint.swift */; };
+		84BA5DC42FC54F8600EDA47E /* GGConstraintDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DC32FC54F8600EDA47E /* GGConstraintDescription.swift */; };
+		84BA5DC62FC57B3800EDA47E /* GGLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DC52FC57B3800EDA47E /* GGLayoutConstraint.swift */; };
+		84BA5DC82FC590F600EDA47E /* GGConstraintConstantTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DC72FC590F600EDA47E /* GGConstraintConstantTarget.swift */; };
+		84BA5DCA2FC59DBA00EDA47E /* GGConstraintRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA5DC92FC59DBA00EDA47E /* GGConstraintRelation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2E9467262FC49CA200CF8725 /* GGConstraintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintView.swift; sourceTree = "<group>"; };
 		440B451B25D8696C00334F54 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		440B451F25D869A700334F54 /* BasicUIScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BasicUIScrollViewController.swift; path = demos/BasicUIScrollViewController.swift; sourceTree = "<group>"; };
 		440B452025D869A700334F54 /* SimpleLayoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleLayoutViewController.swift; path = demos/SimpleLayoutViewController.swift; sourceTree = "<group>"; };
@@ -30,6 +44,22 @@
 		44477D7D25D86846009F5E40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44477D7F25D86846009F5E40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D64AC0128D087A400FFEC29 /* libswiftCoreGraphics.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftCoreGraphics.tbd; path = usr/lib/swift/libswiftCoreGraphics.tbd; sourceTree = SDKROOT; };
+		84B00F862FC6A15B009E7BE6 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		84BA5DAA2FC5334200EDA47E /* GGConstraintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintView.swift; sourceTree = "<group>"; };
+		84BA5DAE2FC5335A00EDA47E /* GGConstraintDSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintDSL.swift; sourceTree = "<group>"; };
+		84BA5DAF2FC5335A00EDA47E /* GGConstraintViewDSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintViewDSL.swift; sourceTree = "<group>"; };
+		84BA5DB22FC5336300EDA47E /* GGConstraintAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintAttributes.swift; sourceTree = "<group>"; };
+		84BA5DB32FC5336300EDA47E /* GGConstraintItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintItem.swift; sourceTree = "<group>"; };
+		84BA5DB72FC534E200EDA47E /* GGConstraintMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintMaker.swift; sourceTree = "<group>"; };
+		84BA5DB92FC5351900EDA47E /* GGConstraintMakerExtendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintMakerExtendable.swift; sourceTree = "<group>"; };
+		84BA5DBB2FC535BD00EDA47E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		84BA5DBD2FC535FD00EDA47E /* GGConstraintMakerRelatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintMakerRelatable.swift; sourceTree = "<group>"; };
+		84BA5DBF2FC5384100EDA47E /* GGLayoutConstraintItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGLayoutConstraintItem.swift; sourceTree = "<group>"; };
+		84BA5DC12FC5408500EDA47E /* GGConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraint.swift; sourceTree = "<group>"; };
+		84BA5DC32FC54F8600EDA47E /* GGConstraintDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintDescription.swift; sourceTree = "<group>"; };
+		84BA5DC52FC57B3800EDA47E /* GGLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGLayoutConstraint.swift; sourceTree = "<group>"; };
+		84BA5DC72FC590F600EDA47E /* GGConstraintConstantTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintConstantTarget.swift; sourceTree = "<group>"; };
+		84BA5DC92FC59DBA00EDA47E /* GGConstraintRelation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGConstraintRelation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,14 +75,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2E9467252FC49BA800CF8725 /* GGKit */ = {
-			isa = PBXGroup;
-			children = (
-				2E9467262FC49CA200CF8725 /* GGConstraintView.swift */,
-			);
-			path = GGKit;
-			sourceTree = "<group>";
-		};
 		440B452725D86BDF00334F54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -82,7 +104,7 @@
 		44477D7025D86845009F5E40 /* Example-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				2E9467252FC49BA800CF8725 /* GGKit */,
+				84BA5DA92FC5333300EDA47E /* GGKit */,
 				44477D7C25D86846009F5E40 /* LaunchScreen.storyboard */,
 				44477D7A25D86846009F5E40 /* Assets.xcassets */,
 				44477D7F25D86846009F5E40 /* Info.plist */,
@@ -92,6 +114,53 @@
 				440B452025D869A700334F54 /* SimpleLayoutViewController.swift */,
 			);
 			name = "Example-iOS";
+			sourceTree = "<group>";
+		};
+		84BA5DA92FC5333300EDA47E /* GGKit */ = {
+			isa = PBXGroup;
+			children = (
+				84BA5DB62FC534D500EDA47E /* Maker */,
+				84BA5DAD2FC5335000EDA47E /* DSLs */,
+				84BA5DAC2FC5334700EDA47E /* Models */,
+				84BA5DAA2FC5334200EDA47E /* GGConstraintView.swift */,
+				84BA5DBB2FC535BD00EDA47E /* README.md */,
+			);
+			path = GGKit;
+			sourceTree = "<group>";
+		};
+		84BA5DAC2FC5334700EDA47E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				84BA5DB22FC5336300EDA47E /* GGConstraintAttributes.swift */,
+				84BA5DB32FC5336300EDA47E /* GGConstraintItem.swift */,
+				84BA5DBF2FC5384100EDA47E /* GGLayoutConstraintItem.swift */,
+				84BA5DC12FC5408500EDA47E /* GGConstraint.swift */,
+				84BA5DC32FC54F8600EDA47E /* GGConstraintDescription.swift */,
+				84BA5DC52FC57B3800EDA47E /* GGLayoutConstraint.swift */,
+				84BA5DC72FC590F600EDA47E /* GGConstraintConstantTarget.swift */,
+				84BA5DC92FC59DBA00EDA47E /* GGConstraintRelation.swift */,
+				84B00F862FC6A15B009E7BE6 /* Extension.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		84BA5DAD2FC5335000EDA47E /* DSLs */ = {
+			isa = PBXGroup;
+			children = (
+				84BA5DAE2FC5335A00EDA47E /* GGConstraintDSL.swift */,
+				84BA5DAF2FC5335A00EDA47E /* GGConstraintViewDSL.swift */,
+			);
+			path = DSLs;
+			sourceTree = "<group>";
+		};
+		84BA5DB62FC534D500EDA47E /* Maker */ = {
+			isa = PBXGroup;
+			children = (
+				84BA5DB72FC534E200EDA47E /* GGConstraintMaker.swift */,
+				84BA5DB92FC5351900EDA47E /* GGConstraintMakerExtendable.swift */,
+				84BA5DBD2FC535FD00EDA47E /* GGConstraintMakerRelatable.swift */,
+			);
+			path = Maker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +223,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84BA5DBC2FC535BD00EDA47E /* README.md in Resources */,
 				44477D7E25D86846009F5E40 /* LaunchScreen.storyboard in Resources */,
 				44477D7B25D86846009F5E40 /* Assets.xcassets in Resources */,
 			);
@@ -168,8 +238,22 @@
 			files = (
 				440B452225D869A700334F54 /* SimpleLayoutViewController.swift in Sources */,
 				440B451E25D8696C00334F54 /* ListViewController.swift in Sources */,
+				84BA5DC82FC590F600EDA47E /* GGConstraintConstantTarget.swift in Sources */,
+				84BA5DC22FC5408500EDA47E /* GGConstraint.swift in Sources */,
+				84BA5DBA2FC5351900EDA47E /* GGConstraintMakerExtendable.swift in Sources */,
+				84BA5DC62FC57B3800EDA47E /* GGLayoutConstraint.swift in Sources */,
+				84BA5DCA2FC59DBA00EDA47E /* GGConstraintRelation.swift in Sources */,
 				440B452125D869A700334F54 /* BasicUIScrollViewController.swift in Sources */,
-				2E9467272FC49CA200CF8725 /* GGConstraintView.swift in Sources */,
+				84BA5DBE2FC535FD00EDA47E /* GGConstraintMakerRelatable.swift in Sources */,
+				84BA5DC42FC54F8600EDA47E /* GGConstraintDescription.swift in Sources */,
+				84BA5DB02FC5335A00EDA47E /* GGConstraintDSL.swift in Sources */,
+				84BA5DB42FC5336300EDA47E /* GGConstraintItem.swift in Sources */,
+				84BA5DB82FC534E200EDA47E /* GGConstraintMaker.swift in Sources */,
+				84B00F872FC6A15B009E7BE6 /* Extension.swift in Sources */,
+				84BA5DB52FC5336300EDA47E /* GGConstraintAttributes.swift in Sources */,
+				84BA5DB12FC5335A00EDA47E /* GGConstraintViewDSL.swift in Sources */,
+				84BA5DC02FC5384100EDA47E /* GGLayoutConstraintItem.swift in Sources */,
+				84BA5DAB2FC5334200EDA47E /* GGConstraintView.swift in Sources */,
 				44477D7225D86845009F5E40 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,7 +397,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 93R86TR8AH;
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -342,7 +426,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 93R86TR8AH;
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

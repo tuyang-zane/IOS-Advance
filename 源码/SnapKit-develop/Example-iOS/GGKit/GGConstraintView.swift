@@ -17,7 +17,7 @@ import UIKit
 public typealias GGConstraintView = UIView
 
 extension GGConstraintView {
-    var gg: GGConstraintDSL {
-        <#statements#>
+    var gg: GGConstraintViewDSL {
+        return GGConstraintViewDSL(view: self)
     }
 }

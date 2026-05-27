@@ -8,8 +8,17 @@
 import UIKit
 
 struct GGConstraintViewDSL: GGConstraintAttributesDSL {
+    
+    var target: AnyObject?{
+        return self.view
+    }
+    internal let view: GGConstraintView
 
-    func makeConstraints(_ closure:) {
-        <#function body#>
+    init(view: GGConstraintView) {
+        self.view = view
+    }
+    
+    func makeConstraints(_ closure: (_ make: GGConstraintMaker) -> Void) {
+        GGConstraintMaker.makeConstraints(item: self.view, closure: closure)
     }
 }

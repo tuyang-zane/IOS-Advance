@@ -74,6 +74,7 @@ class GGDataRequest: GGRequest,@unchecked Sendable {
                                                                        completionHandler: @escaping @Sendable (GGDataResponse<Serializer.SerializedObject>) -> Void)
     -> Self {
         appendResponseSerializer {
+            
             // 统计响应序列化解析耗时
 //            let start = ProcessInfo.processInfo.systemUptime // 计时开始
 //

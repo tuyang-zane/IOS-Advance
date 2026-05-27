@@ -45,5 +45,6 @@ extension GGConstraintBasicAttributesDSL {
 }
 
 
-public protocol GGConstraintAttributesDSL : GGConstraintBasicAttributesDSL {
+protocol GGConstraintAttributesDSL : GGConstraintBasicAttributesDSL {
+    
 }
