@@ -7,14 +7,16 @@
 
 import UIKit
 
-typealias Completion = (_ result:Result<>) -> Void
+typealias GGCompletion = (_ result:Result<GGResponse,GGError>) -> Void
 
 protocol GGJayProviderTargetType:AnyObject {
     associatedtype Target: GGTargetType
-    
-    
+    func request(_ target: Target, callbackQueue: DispatchQueue?, completion: @escaping GGCompletion) -> GGCancellable
 }
 
-class GGJayProvider: NSObject {
+class GGJayProvider<Target:GGTargetType>: GGJayProviderTargetType {
 
+    func request(_ target: Target, callbackQueue: DispatchQueue?, completion: @escaping GGCompletion) -> any GGCancellable {
+        
+    }
 }

@@ -65,6 +65,8 @@
 		84B018232FC6F21B009E7BE6 /* Verification1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B0181E2FC6F21B009E7BE6 /* Verification1.swift */; };
 		84B018272FC6FB04009E7BE6 /* GGJayProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B018262FC6FB04009E7BE6 /* GGJayProvider.swift */; };
 		84B0182A2FC6FBE6009E7BE6 /* GGError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B018292FC6FBE6009E7BE6 /* GGError.swift */; };
+		84B0182D2FC6FC61009E7BE6 /* GGResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B0182C2FC6FC61009E7BE6 /* GGResponse.swift */; };
+		84B018302FC6FDD6009E7BE6 /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B0182F2FC6FDD6009E7BE6 /* Cancellable.swift */; };
 		85850A4122CF5AB50089E731 /* NimbleHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85850A4022CF5AB50089E731 /* NimbleHelpers.swift */; };
 		85B2DBBC221C69620098F59A /* PropertyListEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B2DBBB221C69620098F59A /* PropertyListEncoding.swift */; };
 		85C98002231D3EC700AAAFB2 /* MoyaProvider+CombineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C98001231D3EC700AAAFB2 /* MoyaProvider+CombineSpec.swift */; };
@@ -223,6 +225,8 @@
 		84B018202FC6F21B009E7BE6 /* GGTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGTargetType.swift; sourceTree = "<group>"; };
 		84B018262FC6FB04009E7BE6 /* GGJayProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGJayProvider.swift; sourceTree = "<group>"; };
 		84B018292FC6FBE6009E7BE6 /* GGError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGError.swift; sourceTree = "<group>"; };
+		84B0182C2FC6FC61009E7BE6 /* GGResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGResponse.swift; sourceTree = "<group>"; };
+		84B0182F2FC6FDD6009E7BE6 /* Cancellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
 		851FFE6DC58E873408D0E8E7 /* MoyaProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MoyaProvider.swift; sourceTree = "<group>"; };
 		85850A4022CF5AB50089E731 /* NimbleHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NimbleHelpers.swift; sourceTree = "<group>"; };
 		85B2DBBB221C69620098F59A /* PropertyListEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListEncoding.swift; sourceTree = "<group>"; };
@@ -461,6 +465,7 @@
 		84B018212FC6F21B009E7BE6 /* Jay */ = {
 			isa = PBXGroup;
 			children = (
+				84B0182E2FC6FDC5009E7BE6 /* Cancellble */,
 				84B0182B2FC6FBEB009E7BE6 /* Error */,
 				84B018282FC6FBC9009E7BE6 /* Response */,
 				84B0181F2FC6F21B009E7BE6 /* Verification */,
@@ -473,6 +478,7 @@
 		84B018282FC6FBC9009E7BE6 /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				84B0182C2FC6FC61009E7BE6 /* GGResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -483,6 +489,14 @@
 				84B018292FC6FBE6009E7BE6 /* GGError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		84B0182E2FC6FDC5009E7BE6 /* Cancellble */ = {
+			isa = PBXGroup;
+			children = (
+				84B0182F2FC6FDD6009E7BE6 /* Cancellable.swift */,
+			);
+			path = Cancellble;
 			sourceTree = "<group>";
 		};
 		85C97FFE231D2D2D00AAAFB2 /* CombineMoya */ = {
@@ -1032,8 +1046,10 @@
 				469A06781F705C3E001153A0 /* ViewController.swift in Sources */,
 				469A06761F705C3E001153A0 /* AppDelegate.swift in Sources */,
 				84B018272FC6FB04009E7BE6 /* GGJayProvider.swift in Sources */,
+				84B0182D2FC6FC61009E7BE6 /* GGResponse.swift in Sources */,
 				469A06BB1F70637C001153A0 /* GiphyAPI.swift in Sources */,
 				84B018222FC6F21B009E7BE6 /* GGTargetType.swift in Sources */,
+				84B018302FC6FDD6009E7BE6 /* Cancellable.swift in Sources */,
 				84B018232FC6F21B009E7BE6 /* Verification1.swift in Sources */,
 				84B0182A2FC6FBE6009E7BE6 /* GGError.swift in Sources */,
 				469A06BC1F70637C001153A0 /* GitHubAPI.swift in Sources */,
