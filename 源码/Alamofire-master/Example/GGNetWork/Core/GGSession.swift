@@ -21,10 +21,13 @@ class GGSession: @unchecked Sendable {
     // 解析数据不卡网络队列，解析不影响请求发送。
     public let serializationQueue: DispatchQueue
 
+    // 事件监控器
     public let eventMonitor: GGCompositeEventMonitor
 
+    /// 决定“请求”创建后设置时间的值。`.默认情况下是懒惰的。
     public let requestSetup: GGRequestSetup
 
+    /// 用于该实例所创建的所有“请求”的“请求拦截器”。“请求拦截器”也可以按每个“请求”进行添加，在这种情况下，来自“会话”的拦截器将首先执行。默认值为 nil。
     public let interceptor: (any GGRequestInterceptor)?
 
     public let session: URLSession
@@ -57,7 +60,7 @@ class GGSession: @unchecked Sendable {
      // 3. 后台后台上传/下载模式（APP退后台也能继续）
      let config = URLSessionConfiguration.background(withIdentifier: "xxx")
      */
-    convenience init(configuration: URLSessionConfiguration = URLSessionConfiguration.af.default,
+    convenience init(configuration: URLSessionConfiguration = URLSessionConfiguration.gg.default,
                      delegate: GGSessionDelegate = GGSessionDelegate(),
                      rootQueue: DispatchQueue = DispatchQueue(label: "org.GGsession.rootQueue"),
                      requestSetup: GGRequestSetup = .lazy,

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D3467742FCD6C1400077572 /* GGExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3467732FCD6C1400077572 /* GGExtended.swift */; };
 		3129D57622F230AE009C145F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3129D57422F230AE009C145F /* LaunchScreen.storyboard */; };
 		31E476821C55DE6D00968569 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E4766A1C55DD5900968569 /* Alamofire.framework */; };
 		31E476831C55DE6D00968569 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 31E4766A1C55DD5900968569 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -130,6 +131,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2D3467732FCD6C1400077572 /* GGExtended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGExtended.swift; sourceTree = "<group>"; };
 		3129D57522F230AE009C145F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Resources/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
 		31E4765F1C55DD5900968569 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = ../Alamofire.xcodeproj; sourceTree = "<group>"; };
 		4C6D2C7D1C67EFE100846168 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Source/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
@@ -171,6 +173,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D3467682FCD6B7500077572 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				84BDA5132FBAEAF200FB5546 /* GGSession.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		2D3467722FCD6C0200077572 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				2D3467732FCD6C1400077572 /* GGExtended.swift */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
 		31E476601C55DD5900968569 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,7 +219,8 @@
 		84BDA5052FBAE92C00FB5546 /* GGNetWork */ = {
 			isa = PBXGroup;
 			children = (
-				84BDA5132FBAEAF200FB5546 /* GGSession.swift */,
+				2D3467722FCD6C0200077572 /* Features */,
+				2D3467682FCD6B7500077572 /* Core */,
 				84BDA5152FBAF33400FB5546 /* URLConvertible.swift */,
 				84BDA5172FBAF3BB00FB5546 /* GGError.swift */,
 				84BDA5192FBAF77700FB5546 /* HTTPMethod.swift */,
@@ -434,6 +453,7 @@
 				84CCEE012FBBFC3300771501 /* HTTPHeader.swift in Sources */,
 				84C03FEB2FC05BC600B976F9 /* Result+GGNet.swift in Sources */,
 				4C6D2C811C67EFE100846168 /* DetailViewController.swift in Sources */,
+				2D3467742FCD6C1400077572 /* GGExtended.swift in Sources */,
 				84BDA5182FBAF3BB00FB5546 /* GGError.swift in Sources */,
 				84B4CFFB2FBEB7D400E4A163 /* ResponseSerializer.swift in Sources */,
 				848E913D2FBC70A100FDE80E /* EventMonitor.swift in Sources */,
