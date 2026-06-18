@@ -20,6 +20,8 @@ protocol GGEventMonitor: Sendable {
 
     func request(_ request: GGRequest, didCancelTask task: URLSessionTask)
 
+    func request<Value: Sendable>(_ request: GGDataRequest, didParseResponse response: InDataResponse<Value, GGError>)
+
 }
 
 extension GGEventMonitor{
@@ -66,6 +68,10 @@ final class GGCompositeEventMonitor: GGEventMonitor {
     }
     
     func request(_ request: GGRequest, didCancelTask task: URLSessionTask) {
+        
+    }
+
+    func request<Value>(_ request: GGDataRequest, didParseResponse response: InDataResponse<Value, GGError>) where Value : Sendable {
         
     }
 

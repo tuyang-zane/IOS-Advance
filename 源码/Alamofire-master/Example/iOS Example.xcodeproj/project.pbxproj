@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2D3467742FCD6C1400077572 /* GGExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3467732FCD6C1400077572 /* GGExtended.swift */; };
+		2D8CF2F02FE27142008E4703 /* MAP.md in Resources */ = {isa = PBXBuildFile; fileRef = 2D8CF2EF2FE27142008E4703 /* MAP.md */; };
 		3129D57622F230AE009C145F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3129D57422F230AE009C145F /* LaunchScreen.storyboard */; };
 		31E476821C55DE6D00968569 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E4766A1C55DD5900968569 /* Alamofire.framework */; };
 		31E476831C55DE6D00968569 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 31E4766A1C55DD5900968569 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -132,6 +133,7 @@
 
 /* Begin PBXFileReference section */
 		2D3467732FCD6C1400077572 /* GGExtended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGExtended.swift; sourceTree = "<group>"; };
+		2D8CF2EF2FE27142008E4703 /* MAP.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MAP.md; sourceTree = "<group>"; };
 		3129D57522F230AE009C145F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Resources/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
 		31E4765F1C55DD5900968569 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = ../Alamofire.xcodeproj; sourceTree = "<group>"; };
 		4C6D2C7D1C67EFE100846168 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Source/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
@@ -238,6 +240,7 @@
 				84B4CFFA2FBEB7D400E4A163 /* ResponseSerializer.swift */,
 				84C03FDF2FC0569500B976F9 /* Response.swift */,
 				84C03FEA2FC05BC600B976F9 /* Result+GGNet.swift */,
+				2D8CF2EF2FE27142008E4703 /* MAP.md */,
 			);
 			path = GGNetWork;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				3129D57622F230AE009C145F /* LaunchScreen.storyboard in Resources */,
 				4C6D2C8F1C67EFEC00846168 /* Images.xcassets in Resources */,
 				4C6D2C981C67F03B00846168 /* Main.storyboard in Resources */,
+				2D8CF2F02FE27142008E4703 /* MAP.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

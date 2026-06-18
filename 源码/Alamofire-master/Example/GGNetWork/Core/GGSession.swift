@@ -32,8 +32,18 @@ class GGSession: @unchecked Sendable {
 
     public let session: URLSession
 
+    /// 该实例的“会话委托”对象，负责处理“URLSessionDelegate”方法以及“请求”交互操作。
     public let delegate: GGSessionDelegate
 
+    let mutableState = GGProtected(GGMutableState())
+
+    public let startRequestsImmediately: Bool
+
+    enum GGRequestSetup {
+        case lazy
+        case eager
+    }
+    
     struct GGMutableState {
         /// Internal map between `Request`s and any `URLSessionTasks` that may be in flight for them.
         var requestTaskMap = GGRequestTaskMap()
@@ -43,13 +53,7 @@ class GGSession: @unchecked Sendable {
         var waitingCompletions: [URLSessionTask: () -> Void] = [:]
     }
 
-    let mutableState = GGProtected(GGMutableState())
 
-    enum GGRequestSetup {
-        case lazy
-        case eager
-    }
-    
     /*
      // 1. 标准模式（最常用）
      let config = URLSessionConfiguration.default
@@ -71,6 +75,7 @@ class GGSession: @unchecked Sendable {
         
         precondition(configuration.identifier == nil, "Alamofire does not support background URLSessionConfigurations.")
 
+        // 为确保安全，对传入的根队列进行重新定向，除非它是主队列（我们知道主队列是安全的）。
         let serialRootQueue = (rootQueue === DispatchQueue.main) ? rootQueue : DispatchQueue(label: rootQueue.label,target: rootQueue)
         
         let delegateQueue = OperationQueue()
@@ -92,11 +97,18 @@ class GGSession: @unchecked Sendable {
     init(session: URLSession,
          delegate: GGSessionDelegate,
         rootQueue: DispatchQueue = DispatchQueue(label: "org.GGsession.rootQueue"),
+        startRequestsImmediately: Bool = true,
         requestSetup: GGRequestSetup = .lazy,
         requestQueue: DispatchQueue? = nil,
         serializationQueue: DispatchQueue? = nil,
         interceptor: (any GGRequestInterceptor)? = nil,
         eventMonitors: [any GGEventMonitor] = [GGAlamofireNotifications()]) {
+        
+        precondition(session.configuration.identifier == nil,
+                     "Alamofire does not support background URLSessionConfigurations.")
+        precondition(session.delegateQueue.underlyingQueue === rootQueue,
+                     "Session(session:) initializer must be passed the DispatchQueue used as the delegateQueue's underlyingQueue as rootQueue.")
+
         self.rootQueue = rootQueue
         self.requestQueue = requestQueue ?? DispatchQueue(label: "\(rootQueue.label).requestQueue",target: rootQueue)
         self.serializationQueue = serializationQueue ?? DispatchQueue(label: "\(rootQueue.label).serializationQueue",target: rootQueue)
@@ -105,7 +117,7 @@ class GGSession: @unchecked Sendable {
         self.interceptor = interceptor
         self.session = session
         self.delegate = delegate
-
+        self.startRequestsImmediately = startRequestsImmediately
     }
     
 //    let session:URLSession
@@ -253,9 +265,11 @@ class GGSession: @unchecked Sendable {
 }
 
 extension GGSession: GGRequestDelegate {
-    
-    public func readyToPerform(request: GGRequest) {
-        perform(request)
+    var startImmediately: Bool {
+        startRequestsImmediately
     }
     
+    func readyToPerform(request: GGRequest) {
+        perform(request)
+    }
 }

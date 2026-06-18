@@ -20,8 +20,19 @@ class GGDataRequest: GGRequest,@unchecked Sendable {
 
     public let convertible: any GGURLRequestConvertible
 
+    public var data: Data? { dataMutableState.read(\.data) }
+
+    private struct DataMutableState {
+        var data: Data?
+        var httpResponseHandler: (queue: DispatchQueue,
+                                  handler: @Sendable (_ response: HTTPURLResponse,
+                                                      _ completionHandler: @escaping @Sendable (ResponseDisposition) -> Void) -> Void)?
+    }
+
+    private let dataMutableState = GGProtected(DataMutableState())
+
     init(id: UUID = UUID(),// 唯一ID，用来追踪请求
-         convertible: any GGURLRequestConvertible,// 唯一ID，用来追踪请求
+         convertible: any GGURLRequestConvertible,
          underlyingQueue: DispatchQueue,// 底层工作队列（网络执行）
          serializationQueue: DispatchQueue,// 序列化队列（解析JSON/数据）
          eventMonitor: (any GGEventMonitor)?,// 事件监听（日志、埋点）
@@ -74,14 +85,19 @@ class GGDataRequest: GGRequest,@unchecked Sendable {
                                                                        completionHandler: @escaping @Sendable (GGDataResponse<Serializer.SerializedObject>) -> Void)
     -> Self {
         appendResponseSerializer {
+            let start = ProcessInfo.processInfo.systemUptime
+            let result:GGResult<Serializer.SerializedObject> = Result{
+                try responseSerializer.serialize(request: self.request, response: self.response, data: self.data, error: self.error)
+            }.mapError({ error in
+                error.asGGError(or: .invalidURL(url: "123"))
+            })
+            let end = ProcessInfo.processInfo.systemUptime
             
-            // 统计响应序列化解析耗时
-//            let start = ProcessInfo.processInfo.systemUptime // 计时开始
-//
-//            let result = GGResult<Serializer.SerializedObject> = Result{
-//                responseSerializer.
-//            }
-            
+            self.underlyingQueue.async {
+                let response = InDataResponse(request: self.request, response: self.response, data: self.data, metrics: self.metrics, serializationDuration: end - start, result: result)
+                self.eventMonitor?.request(self, didParseResponse: response)
+                completionHandler(response)
+            }
         }
         return self
     }

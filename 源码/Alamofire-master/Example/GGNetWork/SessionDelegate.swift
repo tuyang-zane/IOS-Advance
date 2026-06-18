@@ -9,7 +9,12 @@
 import UIKit
 
 class GGSessionDelegate: NSObject,@unchecked Sendable {
-    
+    private let fileManager: FileManager
+    var eventMonitor: (any GGEventMonitor)?
+
+    init(fileManager: FileManager = .default) {
+        self.fileManager = fileManager
+    }
 }
 
 extension GGSessionDelegate:URLSessionDelegate{

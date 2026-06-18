@@ -48,16 +48,14 @@ extension GGExtended {
 
 extension URLSessionConfiguration: GGExtended {}
 extension GGExtension where ExtendedType: URLSessionConfiguration {
-    /// Alamofire's default configuration. Same as `URLSessionConfiguration.default` but adds Alamofire default
-    /// `Accept-Language`, `Accept-Encoding`, and `User-Agent` headers.
+    
+    /// default 会持久化到磁盘；ephemeral 只在内存、不写盘、用完即清。
     public static var `default`: URLSessionConfiguration {
         let configuration = URLSessionConfiguration.default
         configuration.headers = .default
         return configuration
     }
 
-    /// `.ephemeral` configuration with Alamofire's default `Accept-Language`, `Accept-Encoding`, and `User-Agent`
-    /// headers.
     public static var ephemeral: URLSessionConfiguration {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.headers = .default

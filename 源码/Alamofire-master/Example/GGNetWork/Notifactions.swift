@@ -9,5 +9,7 @@
 import UIKit
 
 final class GGAlamofireNotifications: GGEventMonitor {
-
+    func request<Value>(_ request: GGDataRequest, didParseResponse response: InDataResponse<Value, GGError>) where Value : Sendable {
+        
+    }
 }

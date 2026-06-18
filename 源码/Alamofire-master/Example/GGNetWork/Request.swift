@@ -28,7 +28,7 @@ class GGRequest: @unchecked Sendable {
 
     public let shouldAutomaticallyResume: Bool?
     
-    public private(set) weak var delegate: (any GGRequestDelegate)?
+    private(set) weak var delegate: (any GGRequestDelegate)?
 
     let mutableState: GGProtected<GGMutableState>
 
@@ -46,7 +46,26 @@ class GGRequest: @unchecked Sendable {
 
     public var lastRequest: URLRequest? { requests.last }
 
+    public var request: URLRequest? { lastRequest }
+
     public var requests: [URLRequest] { mutableState.read(\.requests) }
+
+    public var response: HTTPURLResponse? {
+        lastTask?.response as? HTTPURLResponse
+    }
+    
+    public var tasks: [URLSessionTask] { mutableState.read(\.tasks) }
+    public var lastTask: URLSessionTask? { tasks.last }
+    public var task: URLSessionTask? { lastTask }
+
+    public var metrics: URLSessionTaskMetrics? { lastMetrics }
+    public var lastMetrics: URLSessionTaskMetrics? { allMetrics.last }
+    public var allMetrics: [URLSessionTaskMetrics] { mutableState.read(\.metrics) }
+    
+    public internal(set) var error: GGError? {
+        get { mutableState.read(\.error) }
+        set { mutableState.write { $0.error = newValue } }
+    }
 
     enum State {
         /// `刚创建好 还没发请求 还没调用 resume () 出生状态
@@ -59,7 +78,21 @@ class GGRequest: @unchecked Sendable {
         case cancelled
         /// `彻底取消
         case finished
-
+        
+        func canTransitionTo(_ state: State) -> Bool {
+            switch (self, state) {
+            case (.initialized, _):
+                true
+            case (_, .initialized), (.cancelled, _), (.finished, _):
+                false
+            case (.resumed, .cancelled), (.suspended, .cancelled), (.resumed, .suspended), (.suspended, .resumed):
+                true
+            case (.suspended, .suspended), (.resumed, .resumed):
+                false
+            case (_, .finished):
+                true
+            }
+        }
     }
     
     init(id: UUID = UUID(),
@@ -88,6 +121,8 @@ class GGRequest: @unchecked Sendable {
         var tasks: [URLSessionTask] = []
         var responseSerializers: [@Sendable () -> Void] = []
         var responseSerializerProcessingFinished = false
+        var error: GGError?
+        var metrics: [URLSessionTaskMetrics] = []
     }
 
     func didCreateInitialURLRequest(_ request: URLRequest) {
@@ -166,32 +201,49 @@ class GGRequest: @unchecked Sendable {
         fatalError("Subclasses must override.")
     }
 
-    
     func appendResponseSerializer(_ closure: @escaping @Sendable () -> Void) {
         mutableState.write { mutableState in
+            // 1. 把序列化闭包塞进数组，所有解析逻辑存在这里
             mutableState.responseSerializers.append(closure)
             
+            // 场景：请求之前已经跑完 finished，现在又新增回调
+            // 把状态切回 resumed，允许再次执行序列化流程
             if mutableState.state == .finished {
                 mutableState.state = .resumed
             }
 
-//            if mutableState.responseSerializerProcessingFinished{
-//            }
-            underlyingQueue.async {[self] in
-                resume()
+            // 2. 判断：旧的一批序列化器已经全部处理完
+            // 此时新加入的闭包不会自动跑，需要手动触发一次解析流程
+            if mutableState.responseSerializerProcessingFinished {
+//                underlyingQueue.async { self.processNextResponseSerializer() }
             }
 
+            // 3. 状态允许启动 && 自动发起请求开关打开，则自动调用 resume()
+            if mutableState.state.canTransitionTo(.resumed) {
+                underlyingQueue.async { [self] in
+                    if (shouldAutomaticallyResume ?? delegate?.startImmediately) == true {
+                        resume()
+                    }
+                }
+            }
         }
     }
     
+    @discardableResult
     public func resume() -> Self {
-       let _ = mutableState.write { mutableState in
-            guard let task = mutableState.tasks.last else {
-                return true
-            }
-            guard task.state != .completed else {return false}
+        let needsToPerform = mutableState.write { mutableState in
+            guard mutableState.state.canTransitionTo(.resumed) else { return false }
+            mutableState.state = .resumed
+            // Ensure we have a task, otherwise Session hasn't called perform yet.
+            guard let task = mutableState.tasks.last else { return true }
+            // We have a task, so we shouldn't need to trigger perform again.
+            guard task.state != .completed else { return false }
             task.resume()
+            underlyingQueue.async {}
             return false
+        }
+        if needsToPerform {
+            delegate?.readyToPerform(request: self)
         }
         return self
     }
@@ -214,6 +266,21 @@ extension GGRequest:Hashable,Equatable{
 }
 
 //这个协议，只能被【类 class】遵守，不能被结构体 struct / 枚举 enum 遵守！
-public protocol GGRequestDelegate: AnyObject, Sendable {
-    
+protocol GGRequestDelegate: AnyObject, Sendable {
+    var startImmediately: Bool { get }
+    func readyToPerform(request: GGRequest)
+}
+
+
+extension GGRequest {
+    public enum ResponseDisposition:Sendable {
+        case allow
+        case cancel
+        var sessionDisposition: URLSession.ResponseDisposition {
+            switch self {
+            case .allow: .allow
+            case .cancel: .cancel
+            }
+        }
+    }
 }

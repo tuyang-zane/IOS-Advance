@@ -80,7 +80,7 @@ public class DataRequest: Request, @unchecked Sendable {
 
     /// Called when `Data` is received by this instance.
     ///
-    /// - Note: Also calls `updateDownloadProgress`.
+    /// - Note: Also callfs `updateDownloadProgress`.
     ///
     /// - Parameter data: The `Data` received.
     func didReceive(data: Data) {

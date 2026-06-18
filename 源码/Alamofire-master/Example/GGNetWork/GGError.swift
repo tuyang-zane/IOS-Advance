@@ -16,3 +16,9 @@ enum GGError: Error, Sendable {
         case bodyDataInGETRequest(Data)
     }
 }
+
+extension Error {
+    func asGGError(or defaultAFError: @autoclosure () -> GGError) -> GGError {
+        self as? GGError ?? defaultAFError()
+    }
+}

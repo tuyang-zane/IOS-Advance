@@ -67,6 +67,12 @@ class DetailViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         refresh()
+        
+        let re = GG.request("https://httpbin.org/get")
+        re.responseString { _ in
+            print("responseString============= ")
+        }
+
     }
 
     // MARK: IBActions
